@@ -1,3 +1,10 @@
+<?php
+
+require ('connect.php');
+
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,6 +13,6 @@
     <title>Document</title>
 </head>
 <body>
-    
+    <h1>This is a test </h1>
 </body>
 </html>
