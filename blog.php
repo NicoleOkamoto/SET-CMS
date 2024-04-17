@@ -1,10 +1,11 @@
 <?php
 
 require ('connect.php');
+require ('header.php');
 
 // Fetch and display inserted data. Five most recent blog posts displayed in reverse chronological order.
 $query = "SELECT id, title, contentBlog, date FROM blog ORDER BY date DESC LIMIT 5";
-$statement = $db->query($query);
+$statement = $pdo->query($query);
 
 ?>
 
@@ -25,8 +26,7 @@ $statement = $db->query($query);
           
             <nav>
                 <ul>
-                    <!-- New Post button in the Nav Bar -->
-                    <li><a href="create.php">New Post</a></li>
+       
                 </ul>
             </nav>
         </header>
@@ -39,7 +39,7 @@ $statement = $db->query($query);
             <?php while ($row = $statement->fetch(PDO::FETCH_ASSOC)): ?>
                 <div class='blog_post'>
                     <!-- Title with link to full post -->
-                    <h2><a href='post.php?id=<?= $row['id'] ?>'>
+                    <h2><a href='blogPost.php?id=<?= $row['id'] ?>'>
                             <?= $row['title'] ?>
                         </a> </h2>
 
@@ -48,7 +48,7 @@ $statement = $db->query($query);
                         <?php $date = strtotime($row['date']);
                         $dateFormated = date('F d, Y, h:i a', $date); ?>
                         <?= $dateFormated ?>
-                        <a href='edit.php?id=<?= $row['id'] ?>'>Edit</a>
+                        <a href='editBlog.php?id=<?= $row['id'] ?>'>Edit</a>
                     </small>
 
                     <!-- Truncate the content if it's larger than 200 characters -->
@@ -59,7 +59,7 @@ $statement = $db->query($query);
                         ?>
                         <!-- Display "Read More" link if content is truncated -->
                         <?php if (strlen($row['contentBlog']) > 200): ?>
-                            <a href='post.php?id=<?= $row['id'] ?>'>Read Full Post</a>
+                            <a href='blogPost.php?id=<?= $row['id'] ?>'>Read Full Post</a>
 
                         <?php endif; ?>
                     </p>

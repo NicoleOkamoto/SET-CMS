@@ -1,8 +1,8 @@
 <?php
 require('connect.php');
-
+require ('header.php');
 // Fires off a session cookie
-session_start();
+
 
 $verified_user = isset($_SESSION['is_verified']) && $_SESSION['is_verified'];
 
@@ -40,42 +40,37 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 ?>
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <title>Login</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>Your Website</title>
+   
 </head>
 <body>
 
-<?php
-// Display the welcome message if the user is verified
-if ($verified_user) {
-    $first_name = $_SESSION['first_name'];
-    echo "<p>Welcome, $first_name!</p>";
-}
-?>
 
-<li><a href="adminlogin.php">Admin Login</a></li>   
-<li><a href="create.php">New Post</a></li>
-<li><a href="blog.php">Blog</a></li>   
+    <!-- Grid with 4 elements -->
+    <div class="container mt-3">
+        <div class="row">
+            <!-- First grid element -->
+            <div class="col-md-3">
+                <!-- Image and short text -->
+            </div>
+            <!-- Repeat for the other grid elements -->
+        </div>
+    </div>
 
-<div class="container">
-    <h2>Login</h2>
-    <form method="post" action="index.php">
-        <div class="mb-3">
-            <label for="username" class="form-label">Username:</label>
-            <input type="text" class="form-control" id="username" name="username" required>
+    <!-- Footer -->
+    <footer class="bg-dark text-light py-3 text-center">
+        <div class="container">
+            <!-- Footer content here -->
+            <a href="admin.php" class="text-light" style="text-decoration: none;">Admin Login</a>
+            <li><a href="admin.php">Admin Login</a></li>   
         </div>
-        <div class="mb-3">
-            <label for="password" class="form-label">Password:</label>
-            <input type="password" class="form-control" id="password" name="password" required>
-        </div>
-        <button type="submit" class="btn btn-primary">Login</button>
-    </form>
-</div>
-</body>
-</html>
+    </footer>
+
 
