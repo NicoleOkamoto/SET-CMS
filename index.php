@@ -92,33 +92,138 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </div>
 
 
-<!-- Grid with 4 elements -->
-<div class="container mt-3">
+<div class="container-fluid py-5 bg-light">
+    <h1 class="mb-4 text-center .text-secondary">Our Services</h1>
     <div class="row">
-        <!-- First grid element -->
+        <!-- Personal File Tax -->
         <div class="col-md-3">
-            <img src="personal_file_tax_image.jpg" alt="Personal File Tax" class="img-fluid mb-2">
-            <h4>Personal File Tax</h4>
-            <p>Short description about Personal File Tax...</p>
+            <div class="card bg-white h-100 mb-4">
+                <img src="images/luana-azevedo-2X0Set_oSh8-unsplash.jpg" alt="Personal File Tax" class="card-img-top">
+                <div class="card-body">
+                    <h5 class="card-title">Personal File Tax</h5>
+                    <p class="card-text">Experience personalized care with our Personal File Tax service. Our dedicated team provides attentive guidance to ensure your tax returns are handled with precision and care. With innovative solutions tailored to your needs, we maximize deductions and optimize your tax outcomes, all while providing a welcoming and supportive environment.</p>
+                </div>
+            </div>
         </div>
-        <!-- Repeat for the other grid elements -->
+        <!-- Business File Tax -->
         <div class="col-md-3">
-            <img src="business_file_tax_image.jpg" alt="Business File Tax" class="img-fluid mb-2">
-            <h4>Business File Tax</h4>
-            <p>Short description about Business File Tax...</p>
+            <div class="card bg-white h-100 mb-4">
+                <img src="images/priscilla-du-preez-nNMBa7Y1Ymk-unsplash.jpg" alt="Business File Tax" class="card-img-top">
+                <div class="card-body">
+                    <h5 class="card-title">Business File Tax</h5>
+                    <p class="card-text">Entrust your business tax needs to us and experience professional excellence. Our Business File Tax service offers meticulous attention to detail, ensuring compliance and minimizing tax liabilities. We blend professionalism with innovation, leveraging cutting-edge strategies to enhance your business's financial health and success.</p>
+                </div>
+            </div>
         </div>
+        <!-- Finance Audit -->
         <div class="col-md-3">
-            <img src="finance_audit_image.jpg" alt="Finance Audit" class="img-fluid mb-2">
-            <h4>Finance Audit</h4>
-            <p>Short description about Finance Audit...</p>
+            <div class="card bg-white h-100 mb-4">
+                <img src="images/kelly-sikkema-SiOW0btU0zk-unsplash.jpg" alt="Finance Audit" class="card-img-top">
+                <div class="card-body">
+                    <h5 class="card-title">Finance Audit</h5>
+                    <p class="card-text">Elevate your financial processes with our Finance Audit service. Our attentive approach ensures thorough scrutiny of your financial records, uncovering insights to drive growth and efficiency. With our innovative audit techniques, we provide valuable recommendations to strengthen your financial integrity and propel your business forward.</p>
+                </div>
+            </div>
         </div>
+        <!-- Bookkeeping -->
         <div class="col-md-3">
-            <img src="bookkeeping_image.jpg" alt="Bookkeeping" class="img-fluid mb-2">
-            <h4>Bookkeeping</h4>
-            <p>Short description about Bookkeeping...</p>
+            <div class="card bg-white h-100 mb-4">
+                <img src="images/brooke-cagle-9fHMo1-5Io8-unsplash.jpg" alt="Bookkeeping" class="card-img-top">
+                <div class="card-body">
+                    <h5 class="card-title">Bookkeeping</h5>
+                    <p class="card-text">Experience the freedom to excel in what you do best, while we handle the rest with our Bookkeeping service. Our attentive bookkeepers meticulously manage your financial data, providing a solid foundation for informed decision-making. With our innovative tools and personalized approach, we streamline your bookkeeping processes, freeing up your time and energy to concentrate on growing your business.</p>
+                </div>
+            </div>
         </div>
     </div>
+    <div class="text-center">
+        <a href="services.php" class="btn btn-primary btn-lg mt-5">Learn More About Our Services</a>
+    </div>
 </div>
+
+<!-- Include Bootstrap CSS -->
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Customers Review Carousel -->
+<div id="googleReviewCarousel" class="carousel slide" data-ride="carousel">
+    <!-- Title -->
+    <h3 class="text-center">What our customers are saying:</h3>
+
+    <div class="carousel-inner">
+        <!-- Review 1 -->
+        <div class="carousel-item active">
+            <div class="carousel-content">
+                <h4 class="text-center">Oh My-Donuts</h3>
+                <div class="rating text-center">
+                    ★★★★★
+                </div>
+                <p class="text-center italic">""S&T Books exceeded my expectations with their Enterprise Finance Audit service. Their team demonstrated exceptional attention to detail and professionalism throughout the auditing process. They provided valuable insights that helped us optimize our financial strategies and improve our overall efficiency. I highly recommend S&T Books to any enterprise seeking thorough and reliable financial audit services.""</p>
+            </div>
+        </div>
+        <!-- Review 2 -->
+        <div class="carousel-item">
+            <div class="carousel-content">
+                <h4 class="text-center">Renan Luis</h3>
+                <div class="rating text-center">
+                    ★★★★★
+                </div>
+                <p class="text-center italic">""Choosing S&T Books for my personal file tax needs was one of the best decisions I've made. Their dedicated team provided personalized assistance and guidance, ensuring that my tax returns were handled accurately and efficiently. They helped me maximize deductions and minimize tax liabilities, resulting in significant savings. With their expertise and attention to detail, tax season has become stress-free for me. Thank you, S&T Books, for your exceptional service!""</p>
+            </div>
+        </div>
+        <!-- Review 3 -->
+        <div class="carousel-item">
+            <div class="carousel-content">
+                <h4 class="text-center">Barber Shop Transcona</h3>
+                <div class="rating text-center">
+                    ★★★★★
+                </div>
+                <p class="text-center italic">""S&T Books has been instrumental in managing my business's bookkeeping needs. Their comprehensive bookkeeping service has streamlined our financial processes and provided us with valuable insights into our financial health. Their team is attentive, reliable, and always goes above and beyond to ensure accuracy and efficiency. Thanks to S&T Books, I can focus on growing my business with confidence, knowing that our finances are in capable hands.""</p>
+            </div>
+        </div>
+    </div>
+    <!-- Next/Prev controls -->
+    <a class="carousel-control-prev" href="#googleReviewCarousel" role="button" data-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+    </a>
+    <a class="carousel-control-next" href="#googleReviewCarousel" role="button" data-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+    </a>
+</div>
+
+<!-- Include Bootstrap JS and jQuery -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<!-- Custom JavaScript -->
+<script>
+    // Activate carousel and set interval
+    $('.carousel').carousel({
+        interval: 4000  // Slide every 4 seconds
+    });
+</script>
+
+<!-- Custom CSS -->
+<style>
+    .carousel-content {
+        text-align: center;
+    }
+    .rating {
+        color: gold;
+        font-size: 24px;
+    }
+    .italic {
+        font-style: italic;
+    }
+    h3 {
+        font-size: 18px;
+        margin-bottom: 5px;
+    }
+</style>
+
+
 
 <footer>
     <!-- Footer content -->

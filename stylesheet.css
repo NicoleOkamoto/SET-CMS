@@ -67,6 +67,35 @@ html {
 
 
 
+.card {
+  border: none;
+}
+
+.card-img-top {
+  object-fit: cover;
+}
+
+.bg-light {
+  background-color: #F8F9FA !important;
+}
+
+.bg-white {
+  background-color: #fff !important;
+}
+
+.py-5 {
+  margin-top: 3rem !important;
+  margin-bottom: 3rem !important;
+}
+
+
+
+
+
+
+
+
+
 /* footer styling */
 
 footer {
@@ -101,19 +130,26 @@ footer {
   margin-bottom: 10px;
 }
 
-button .btn-primary{
-  color:bisque;
-}
 
 
 h1 {
   font-family: 'Aleo', sans-serif;
   font-weight: bold;
+  color: #4058d4;
+
 }
 
 h2{
   font-family: 'Aleo', sans-serif; /* Use the Aleo font */
   font-size: 1.7rem; /* Adjust font size as needed */
+  margin: 0.9rem; /* Add margin below the title */
+  font-weight: bold;
+  color: #4058d4; /* Use purple color */
+}
+
+h3{
+  font-family: 'Aleo', sans-serif; /* Use the Aleo font */
+  font-size: 1.4rem; /* Adjust font size as needed */
   margin: 0.9rem; /* Add margin below the title */
   font-weight: bold;
   color: #4058d4; /* Use purple color */
