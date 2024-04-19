@@ -2,8 +2,9 @@
 require('connect.php');
 require('authenticate.php');
 
-session_start();
-
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 //CREATE NEW USER SECTION
 // Check if the form create user form was submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['create_user'])) {
