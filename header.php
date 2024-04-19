@@ -7,8 +7,8 @@ session_start();
 // Check if the user is verified
 $verified_user = isset($_SESSION['is_verified']) && $_SESSION['is_verified'];
 
-// Check if the form was submitted
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+// Check if the form was submitted and the login button is clicked
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['login'])) {
     // Sanitize inputs
     $username = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_STRING);
     $password = $_POST['password'];
@@ -28,6 +28,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo "Invalid username or password.";
     }
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -58,7 +59,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
             </div>
             <div class="col-auto">
-                <button type="submit" class="btn btn-primary mr-2">Login</button>
+                <button name="login" type="submit" class="btn btn-primary mr-2">Login</button>
                 <?php if ($verified_user): ?>
                     <a href="logout.php" class="btn btn-primary">Logout</a>
                 <?php endif; ?>
