@@ -1,15 +1,8 @@
 <?php
 
-/*******w******** 
-    
-    Name: Nicole Aline Okamoto Goncalves    
-    Date: 04/01/2026
-    Description: Blog Appplication Assigment 
-
-****************/
-
 require ('connect.php');
 require ('authenticate.php');
+
 
 $errorMessage = "";
 
@@ -44,39 +37,76 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     }
 }
 
+
+
+
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="main.css">
     <title>Create New Post</title>
+    <!-- Include Quill Stylesheet -->
+    <link href="https://cdn.jsdelivr.net/npm/quill@2.0.0/dist/quill.snow.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 
 <body>
-    <div class='wrapper'>
-        <header>
-            <a href="index.php"><img src="images/Nicole_Blog_Logo.png" alt="Logo" class="logo"></a>
-            <nav>
-                <ul>
-                    <li><a href="index.php">Home</a></li>
-                </ul>
-            </nav>
+    <div class='container'>
+        <header class="bg-light py-2 d-flex justify-content-between align-items-center px-3 mb-3">
+            <!-- Logo -->
+            <div class="logo">
+                <img src="images/SET-BOOKS.png" alt="Logo" height="90px">
+            </div>
+            
         </header>
 
-        <!-- Form to enter new post -->
+
+        <h1>Create a new Blog Post</h1>
+        
+        <!-- Create the editor container for the title -->
+        <div id="titleEditor" class="mb-3"></div>
+
+        <!-- Create the editor container for the contentBlog -->
+        <div id="contentEditor" class="mb-3"></div>
+
+        <!-- Form to submit new post -->
         <form method="post" action="createBlogPost.php">
-            <label for="title">Title</label>
-            <input id="title" name="title" placeholder="Type here...">
-            <label for="contentBlog">Content</label>
-            <textarea id="contentBlog" name="contentBlog" placeholder="Type here..."></textarea>
-            <input type="submit" value="Create New Post">
+            <!-- Hidden input field to store Quill content of title -->
+            <input type="hidden" id="titleInput" name="title">
+            <!-- Hidden input field to store Quill content of contentBlog -->
+            <input type="hidden" id="contentBlogInput" name="contentBlog">
+            <button type="submit" class="btn btn-primary">Create New Post</button>
         </form>
-
     </div>
-</body>
 
+    <!-- Include the Quill library -->
+    <script src="https://cdn.jsdelivr.net/npm/quill@2.0.0/dist/quill.js"></script>
+
+    <!-- Initialize Quill editor for title -->
+    <script>
+        const titleEditor = new Quill('#titleEditor', {
+            theme: 'snow',
+            placeholder: 'Enter title...'
+        });
+    </script>
+
+    <!-- Initialize Quill editor for contentBlog -->
+    <script>
+        const contentEditor = new Quill('#contentEditor', {
+            theme: 'snow',
+            placeholder: 'Enter content...'
+        });
+
+        // Listen for form submission
+        document.querySelector('form').addEventListener('submit', function() {
+            // Populate the hidden input field with Quill content of title
+            document.querySelector('#titleInput').value = titleEditor.root.innerHTML;
+            // Populate the hidden input field with Quill content of contentBlog
+            document.querySelector('#contentBlogInput').value = contentEditor.root.innerHTML;
+        });
+    </script>
+</body>
 </html>

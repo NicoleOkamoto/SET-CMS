@@ -1,12 +1,13 @@
 <?php
+
+
 require('connect.php');
+
 require ('header.php');
 // Fires off a session cookie
 
 
 $verified_user = isset($_SESSION['is_verified']) && $_SESSION['is_verified'];
-
-
 
 // Check if the form was submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -30,14 +31,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } else {
         // Authentication failed
         echo "Invalid username or password.";
-        // Debugging output
-        echo "<pre>";
-        echo "Username from form: $username\n";
-        echo "Password from form: $password\n";
-        echo "Hashed password from DB: " . $user['password'] . "\n";
-        echo "</pre>";
+        // // Debugging output
+        // echo "<pre>";
+        // echo "Username from form: $username\n";
+        // echo "Password from form: $password\n";
+        // echo "Hashed password from DB: " . $user['password'] . "\n";
+        // echo "</pre>";
     }
 }
+
+
+
 ?>
 
 
@@ -47,10 +51,28 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <title>Your Website</title>
-   
-</head>
-<body>
+    
+    <div class="container mt-3">
+        <!-- Image with contact form -->
+        <div class="image-wrapper">
+            <img src="images/towfiqu-barbhuiya-JhevWHCbVyw-unsplash.jpg" class="img-fluid" alt="">
+            <div class="overlay">
+                <div class="form-container">
+                    <!-- Captcha form -->
+                    <script src="https://web3forms.com/client/script.js" async defer></script>
+                    <form class="form-container" id="myForm" action="https://api.web3forms.com/submit" method="POST">
+                        <input type="hidden" name="access_key" value="e5cbb0ea-9a92-40d9-b437-7e92202582e4">
+                        <label class="form-title">Book a Free Consultation!</label>
+                        <input class="form-control mb-3" type="text" name="name" placeholder="Name" required>
+                        <input class="form-control mb-3" type="email" name="email" placeholder="Email" required>
+                        <textarea class="form-control mb-3" name="message" rows="3" placeholder="Tell us about your needs!" required></textarea>
+                        <div class="h-captcha" data-captcha="true"></div>
+                        <button class="btn btn-primary" type="submit">Submit Form</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 
 
     <!-- Grid with 4 elements -->
@@ -64,13 +86,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </div>
     </div>
 
-    <!-- Footer -->
-    <footer class="bg-dark text-light py-3 text-center">
-        <div class="container">
-            <!-- Footer content here -->
-            <a href="admin.php" class="text-light" style="text-decoration: none;">Admin Login</a>
-            <li><a href="admin.php">Admin Login</a></li>   
-        </div>
-    </footer>
+<?php require ('footer.php'); ?>
+<script src="script.js"></script>
 
-
+</html>

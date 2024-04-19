@@ -2,7 +2,7 @@
 require('connect.php');
 require('authenticate.php');
 
-// Check if the form was submitted
+// Check if the form create user form was submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Sanitize inputs
     $username = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_STRING);
@@ -61,6 +61,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </form>
 <h2>Edit Blog</h2>
 <li><a href="createBlogPost.php">New Post</a></li>
+<li><a href="editBlog.php">EditBlog</a></li>
 </div>
 </body>
 </html>

@@ -1,4 +1,5 @@
-/* Existing styles */
+@import url('https://fonts.googleapis.com/css2?family=Aleo:wght@400;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Chivo:ital,wght@0,100..900;1,100..900&display=swap");
 
 /* Ensure that all elements use the box-sizing border-box model */
 html {
@@ -7,16 +8,10 @@ html {
   box-sizing: border-box;
 }
 
-*, *:before, *:after {
-  -webkit-box-sizing: inherit;
-  -moz-box-sizing: inherit;
-  box-sizing: inherit;
-}
-
 .container {
   position: relative;
   width: 100%;
-  max-width: 800px; /* Adjust max-width as needed */
+  
   margin: auto;
 }
 
@@ -39,6 +34,7 @@ html {
 }
 
 .form-container {
+  width: max-content;
   z-index: 2;
   position: absolute;
   top: 50%;
@@ -48,4 +44,127 @@ html {
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+.form-container  .form-title {
+  display: block;
+  font-family: 'Aleo', sans-serif; /* Use the Aleo font */
+  font-size: 1.7rem; /* Adjust font size as needed */
+  margin-bottom: 0.5rem; /* Add margin below the title */
+  font-weight: bold;
+  color: #4058d4; /* Use purple color */
+}
+
+/* footer styling */
+
+footer {
+  background-color: #FFA735;
+}
+
+.footer-link {
+  color: #FFA735;
+  text-decoration: none;
+  transition: color 0.3s ease; /* Smooth transition for color change */
+}
+
+.footer-link:hover {
+  color: white;
+}
+
+/* Blog Styling */
+.wrapper {
+  padding: 20px;
+}
+
+.posts{
+  align-content: center;
+}
+
+.blog-post {
+  margin-bottom: 20px;
+  align-self: center;
+}
+
+.blog-post h2 {
+  margin-bottom: 10px;
+}
+
+button .btn-primary{
+  color:bisque;
+}
+
+
+h1 {
+  font-family: 'Aleo', sans-serif;
+  font-weight: bold;
+}
+
+h2{
+  font-family: 'Aleo', sans-serif; /* Use the Aleo font */
+  font-size: 1.7rem; /* Adjust font size as needed */
+  margin: 0.9rem; /* Add margin below the title */
+  font-weight: bold;
+  color: #4058d4; /* Use purple color */
+}
+
+.navbar {
+  background-color: #FFA735;
+
+}
+
+.nav-item{
+  font-family: 'Chivo', sans-serif; /* Use the Aleo font */
+  font-size: 1.5rem; /* Adjust font size as needed */
+  color: #4058d4; /* Use purple color */
+}
+
+
+
+/* Change color on hover */
+.navbar-nav .nav-link:hover {
+  color:#4058d4; /* Change to desired hover color */
+}
+
+/*Blog post */
+.blog_post img {
+  width: 100%; /* Ensure the image fills its container */
+  height: 300px; /* Set the height to a fixed value */
+  object-fit: cover; /* Crop if necessary to cover image area */
+}
+.blog_post p {
+  margin-bottom: 3px; /* Adjust spacing between paragraphs */
+}
+
+.team-member {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+}
+.team-member img {
+  width: 250px;
+  height: 350px;
+  border-radius: 20%;
+  margin-right: 20px;
+}
+.team-member p {
+  text-align: center;
+  padding: 20px;
+  margin: 10px;
+}
+.team {
+  background-color: #ecc09d27; /* Set the background color */
+  width: 100%;
+  padding: 10px;
+ 
+}
+
+.about {
+  width: 100%;
+  padding: 10px;
+}
+
+.search-container {
+  width: 60%;
+  margin: 0 auto; /* Center the container */
 }

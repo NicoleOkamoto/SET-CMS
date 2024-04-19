@@ -1,14 +1,8 @@
 <?php
 
-/*******w******** 
-    
-    Name: Nicole Aline Okamoto Goncalves    
-    Date: 04/01/2026
-    Description: Blog Appplication Assigment 
-  
-****************/
 
-require ('connect.php');
+require('connect.php');
+
 
 // Get the blog post ID from the URL
 $id = isset($_GET['id']) ? filter_var($_GET['id'], FILTER_VALIDATE_INT) : null;
@@ -20,7 +14,7 @@ if ($id === false || $id === null) {
 }
 
 // Query to fetch the blog post with the specified ID
-$query = "SELECT title, date, contentBlog FROM blog WHERE id = :id";
+$query = "SELECT title, date, contentBlog, image_post, author FROM blog WHERE id = :id";
 $statement = $pdo->prepare($query);
 $statement->bindValue(':id', $id, PDO::PARAM_INT);
 $statement->execute();
@@ -43,53 +37,33 @@ $pageTitle = $row['title'];
 
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="main.css">
-    <title>
-        <?= $pageTitle ?>
-    </title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="stylesheet.css">
+    <title><?= $pageTitle ?></title>
 </head>
+<?php require ('header.php'); ?>
 
 <body>
-
-    <div class='wrapper'>
-        <!-- Remember that alternative syntax is good and html inside php is bad -->
-        <header>
-            <a href="index.php"><img src="images/Nicole_Blog_Logo.png" alt="Logo" class="logo"></a>
-            <nav>
-                <ul>
-                    <!-- Home button -->
-                    <li><a href="index.php">Home</a></li>
-                    
-                </ul>
-            </nav>
-        </header>
-
-        <div class='blog_post'>
-            <!-- Display the blog post -->
-            <small>
-                <h1>
-                    <?= $row['title'] ?>
-                </h1>
-                <p>
-                    <!-- Data formatation as per required format -->
-                    <?php $date = strtotime($row['date']);
-                    $dateFormated = date('F d, Y, h:i a', $date); ?>
-                    <?= $dateFormated ?>
-                </p>
-            </small>
-            <p>
-                <?= $row['contentBlog'] ?>
-            </p>
-            <!-- Edit Post Button -->
-            <a href='editBlogPost.php?id=<?= $id ?>' class="edit-button">Edit Post</a>
-
+    
+        <!-- Blog Post Content -->
+        <div class="col-lg-8 offset-lg-2">
+                <div class="blog_post">
+                    <!-- Display the blog post -->
+                    <h1><?= $row['title'] ?></h1>
+                    <img src="data:image/jpeg;base64,<?= base64_encode($row['image_post']) ?>" class="img-fluid mb-4" alt="Blog Post Image"/>
+                    <p class="mb-2"><small><?= date('F d, Y, h:i a', strtotime($row['date'])) ?></small></p>
+                    <p><?= $row['contentBlog'] ?></p>
+                    <h5><?= $row['author'] ?></h5>
+                </div>
+            </div>
         </div>
-    </div>
+        <li><a href="editBlog.php">EditBlog</a></li>
+        <footer>
+<?php require ('footer.php'); ?>
+                    </footer>
 </body>
-
 </html>
