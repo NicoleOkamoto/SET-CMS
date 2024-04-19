@@ -1,6 +1,16 @@
 <?php
 require('connect.php');
 
+
+// Generate random captcha code
+$captchaCode = substr(md5(mt_rand()), 0, 6); // Generate a 6-character random string
+
+// Store captcha code in session
+$_SESSION['captcha'] = $captchaCode;
+
+
+
+
 // Get the blog post ID from the URL
 $id = isset($_GET['id']) ? filter_var($_GET['id'], FILTER_VALIDATE_INT) : null;
 
@@ -66,61 +76,76 @@ $comments = $statement->fetchAll(PDO::FETCH_ASSOC);
     <link rel="stylesheet" href="stylesheet.css">
     <title><?= $pageTitle ?></title>
 </head>
-
+<header>
+<?php require('header.php'); ?>
+</header>
 <body>
-    <?php require('header.php'); ?>
+ <!-- Blog Post Content -->
 
-    <!-- Blog Post Content -->
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-8 offset-lg-2">
-                <div class="blog_post">
-                    <!-- Display the blog post -->
-                    <h1><?= $row['title'] ?></h1>
-                    <?php if ($row['image_post']) : ?>
-                        <img src="<?= $row['image_post'] ?>" class="img-fluid mb-4" alt="Blog Post Image" />
-                    <?php endif; ?>
-                    <p class="mb-2"><small><?= date('F d, Y, h:i a', strtotime($row['date'])) ?></small></p>
-                    <?= $row['contentBlog'] ?>
-                    <h5><?= $row['author'] ?></h5>
+    <div class="row">
+        <div class="col-lg-8 offset-lg-2">
+            <div class="blog_post bg-light p-4 rounded">
+                <!-- Display the blog post -->
+                <h1 class="mb-4"><?= $row['title'] ?></h1>
+                <?php if ($row['image_post']) : ?>
+                    <img src="<?= $row['image_post'] ?>" class="img-fluid mb-4" alt="Blog Post Image" />
+                <?php endif; ?>
+                <p class="mb-2"><small><?= date('F d, Y, h:i a', strtotime($row['date'])) ?></small></p>
+                <?= $row['contentBlog'] ?>
+                <h5 class="mt-4"><?= $row['author'] ?></h5>
+            </div>
+<!-- Display Comments -->
+<div class="comments mt-5">
+    <h5 class="mb-4">Comments:</h5>
+    <?php if (count($comments) > 0) : ?>
+        <?php $colors = ['#FFE4C2', '#FFF7F2']; ?>
+        <?php $colorIndex = 0; ?>
+        <?php foreach ($comments as $comment) : ?>
+            <div class="card mb-3" style="background-color: <?= $colors[$colorIndex % count($colors)] ?>;">
+                <div class="card-body">
+                    <h5 class="card-title"><?= $comment['name'] ?></h5>
+                    <p class="card-text"><?= $comment['comment'] ?></p>
                 </div>
+            </div>
+            <?php $colorIndex++; ?>
+        <?php endforeach; ?>
+    <?php else : ?>
+        <p>No comments yet. Be the first to comment!</p>
+    <?php endif; ?>
+</div>
 
-                <!-- Comment Form -->
-                <div class="comment-form mt-5">
-                    <h3>Add a Comment</h3>
-                    <form method="post">
-                        <div class="mb-3">
-                            <label for="name" class="form-label">Name</label>
-                            <input type="text" class="form-control" id="name" name="name" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="comment" class="form-label">Comment</label>
-                            <textarea class="form-control" id="comment" name="comment" rows="3" required></textarea>
-                        </div>
-                        <button name="submit_comment" type="submit" class="btn btn-primary">Submit</button>
-                    </form>
-                </div>
 
-                <!-- Display Comments -->
-                <div class="comments mt-5">
-                    <h3>Let us know your thoughts on this article!</h3>
-                    <?php if (count($comments) > 0) : ?>
-                        <?php foreach ($comments as $comment) : ?>
-                            <div class="card mb-3">
-                                <div class="card-body">
-                                    <h5 class="card-title"><?= $comment['name'] ?></h5>
-                                    <p class="card-text"><?= $comment['comment'] ?></p>
-                                </div>
+            <!-- Comment Form -->
+            <div class="comment-form mt-5">
+                <h3 class="mb-4">Add a Comment</h3>
+                <form method="post">
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Name</label>
+                        <input type="text" class="form-control" id="name" name="name" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="comment" class="form-label">Comment</label>
+                        <textarea class="form-control" id="comment" name="comment" rows="3" required></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="captcha" class="form-label">Captcha</label>
+                        <div class="row align-items-center">
+                            <div class="col-md-6">
+                                <img src="captcha.php" alt="Captcha Image" class="img-fluid">
+                           
+                                <input type="text" class="form-control" id="captcha" name="captcha" required>
+                                <small class="form-text">Enter the code shown above</small>
                             </div>
-                        <?php endforeach; ?>
-                    <?php else : ?>
-                        <p>No comments yet. Be the first to comment!</p>
-                    <?php endif; ?>
-                </div>
+                        </div>
+                    </div>
+                    <button name="submit_comment" type="submit" class="btn btn-primary">Submit</button>
+                </form>
             </div>
         </div>
     </div>
 
+
+  
     <footer>
         <?php require('footer.php'); ?>
     </footer>
