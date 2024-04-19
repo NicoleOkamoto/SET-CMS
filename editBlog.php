@@ -93,44 +93,83 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['title']) && isset($_P
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="main.css">
-    <title>Edit Blog Post!</title>
+    <title>Edit Blog Post</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Quill.js CSS -->
+    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
 </head>
 
 <body>
 
-    <div class='wrapper'>
+    <div class="container mt-5">
         <header>
-            <a href="index.php"><img src="images/Nicole_Blog_Logo.png" alt="Logo" class="logo"></a>
-            <nav>
-                <ul>
-                    <!-- New Post / Home Page button in the Nav Bar -->
-                    <li><a href="index.php">Home</a></li>
-                    <li><a href="createBlogPost.php">New Post</a></li>
-                </ul>
+            <nav class="navbar navbar-light bg-light">
+                <div class="container-fluid">
+                    <a class="navbar-brand" href="index.php">
+                        <img src="images/Nicole_Blog_Logo.png" alt="Logo" height="30" class="d-inline-block align-top">
+                    </a>
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link" href="index.php">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="createBlogPost.php">New Post</a>
+                        </li>
+                    </ul>
+                </div>
             </nav>
         </header>
 
         <!-- Display form with title and content being edited -->
         <?php if ($post): ?>
             <form method="post">
-                <label for="title">Title</label>
-                <input id="title" name="title" value="<?= $post['title'] ?>">
-                <label for="contentBlog">Content</label>
-                <textarea id="contentBlog" name="contentBlog" placeholder="<?= $post['contentBlog'] ?>"></textarea>
-
+                <div class="mb-3">
+                    <label for="title" class="form-label">Title</label>
+                    <input type="text" class="form-control" id="title" name="title" value="<?= $post['title'] ?>">
+                </div>
+                <div class="mb-3">
+                    <label for="contentBlog" class="form-label">Content</label>
+                    <div id="editor" style="height: 300px;"><?= $post['contentBlog'] ?></div>
+                    <input type="hidden" name="contentBlog">
+                </div>
                 <!-- Display buttons Edit and Submit Update -->
-                <div class="buttons-container">
-                    <input type="submit" value="Submit Update">
+                <div class="mb-3">
+                    <button type="submit" class="btn btn-primary">Submit Update</button>
+                    <button type="button" class="btn btn-danger" onclick="confirmDelete()">Delete Post</button>
                     <input type="hidden" name="id" value="<?= $post['id'] ?>">
-                    <!-- Confirm if user wants to delete the post -->
-                    <input type="submit" name="delete" value="Delete Post"
-                        onclick="return confirm('Are you sure you wish to delete this post?')">
                 </div>
             </form>
         <?php endif ?>
-
     </div>
+
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Quill.js -->
+<script src="https://cdn.quilljs.com/1.3.6/quill.min.js"></script>
+<script>
+    var quill = new Quill('#editor', {
+        theme: 'snow'
+    });
+
+    // Set the initial content of the Quill editor
+    quill.root.innerHTML = <?= json_encode($post['contentBlog']) ?>;
+
+    // Save the Quill content to the hidden input field
+    document.querySelector('form').addEventListener('submit', function() {
+        document.querySelector('input[name="contentBlog"]').value = quill.getText();
+    });
+
+    // Confirm delete post action
+    function confirmDelete() {
+        if (confirm('Are you sure you wish to delete this post?')) {
+            document.querySelector('input[name="delete"]').value = true;
+            document.querySelector('form').submit();
+        }
+    }
+</script>
+
 
 </body>
 

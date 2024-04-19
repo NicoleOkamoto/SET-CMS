@@ -25,7 +25,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         exit;
     } else {
         // Authentication failed
-        echo "Invalid username or password. header";
+        echo "Invalid username or password.";
     }
 }
 ?>

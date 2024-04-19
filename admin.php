@@ -2,6 +2,7 @@
 require('connect.php');
 require('authenticate.php');
 
+session_start();
 
 //CREATE NEW USER SECTION
 // Check if the form create user form was submitted
@@ -49,23 +50,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['change_image'])) {
             $errorMessage = "Only JPG, JPEG, PNG & GIF files are allowed.";
             echo "<script>alert('$errorMessage');</script>";
         } else {
-            // Read the file contents and convert to LONGBLOB
+            // Read the file contents
             $imageData = file_get_contents($tempFile);
 
-            // Update the header image in the database
-            $query = "UPDATE settings SET header_image = :header_image WHERE id = 1";
+            // Insert a new row into the settings table
+            $query = "INSERT INTO settings (header_image) VALUES (:header_image)";
             $statement = $pdo->prepare($query);
             $statement->bindParam(':header_image', $imageData, PDO::PARAM_LOB);
             if ($statement->execute()) {
-                $successMessage = "Header image updated successfully.";
+                $successMessage = "Header image uploaded successfully.";
                 echo "<script>alert('$successMessage');</script>";
+                header("Location: index.php");
+                exit; // Stop further execution after redirection
             } else {
-                $errorMessage = "Error updating header image.";
+                $errorMessage = "Error uploading header image.";
                 echo "<script>alert('$errorMessage');</script>";
             }
         }
     }
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -79,30 +83,44 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['change_image'])) {
 <body>
     <h1>Admin Portal</h1>
     <div class="container">
-    <h2>Create New User</h2>
     
+    <h2>Create New User</h2>
     <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
-        <label for="username" class="form-label">Username:</label><br>
-        <input type="text" class="form-control" id="username" name="username" required><br><br>
-        <label for="password" class="form-label">Password:</label><br>
-        <input type="password"  class="form-control" id="password" name="password" required><br><br>
-        
-        <label for="email" class="form-label">Email:</label><br>
-        <input type="email" class="form-control" id="email" name="email" required><br><br>
-        
-        <label for="first_name" class="form-label">First Name:</label><br>
-        <input type="text" class="form-control" id="first_name" name="first_name" required><br><br>
-        
-        <label for="last_name" class="form-label">Last Name:</label><br>
-        <input type="text" class="form-control" id="last_name" name="last_name" required><br><br>
-        
-        <label for="business_name" class="form-label">Business Name:</label><br>
-        <input type="text"  class="form-control" id="business_name" name="business_name" required><br><br>
-        
-        <button className="create_user" type="submit" class="btn btn-primary">Create User</button>
+        <table class="table">
+            <tbody>
+                <tr>
+                    <td><label for="username" class="form-label">Username:</label></td>
+                    <td><input type="text" class="form-control" id="username" name="username" required></td>
+                </tr>
+                <tr>
+                    <td><label for="password" class="form-label">Password:</label></td>
+                    <td><input type="password" class="form-control" id="password" name="password" required></td>
+                </tr>
+                <tr>
+                    <td><label for="email" class="form-label">Email:</label></td>
+                    <td><input type="email" class="form-control" id="email" name="email" required></td>
+                </tr>
+                <tr>
+                    <td><label for="first_name" class="form-label">First Name:</label></td>
+                    <td><input type="text" class="form-control" id="first_name" name="first_name" required></td>
+                </tr>
+                <tr>
+                    <td><label for="last_name" class="form-label">Last Name:</label></td>
+                    <td><input type="text" class="form-control" id="last_name" name="last_name" required></td>
+                </tr>
+                <tr>
+                    <td><label for="business_name" class="form-label">Business Name:</label></td>
+                    <td><input type="text" class="form-control" id="business_name" name="business_name" required></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><button type="submit" name="create_user" class="btn btn-primary">Create User</button></td>
+                </tr>
+            </tbody>
+        </table>
     </form>
 </div>
-</div>
+
 
 </form>
 
@@ -131,7 +149,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['change_image'])) {
                 <label for="header_image" class="form-label">Select Image:</label>
                 <input type="file" class="form-control" id="header_image" name="header_image" accept="image/*" required>
             </div>
-            <button className="change_image" type="submit" class="btn btn-primary">Upload Image</button>
+            <button name="change_image" type="submit" class="btn btn-primary">Upload Image</button>
         </form>
     </div>
 

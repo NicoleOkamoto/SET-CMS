@@ -9,37 +9,6 @@ require ('header.php');
 
 $verified_user = isset($_SESSION['is_verified']) && $_SESSION['is_verified'];
 
-// Check if the form was submitted
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Sanitize username
-    $username = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_STRING);
-    // Hash and salt password
-    $password = $_POST['password'];
-
-    // Check username and password against database
-    $stmt = $pdo->prepare('SELECT * FROM users WHERE username = :username');
-    $stmt->execute(['username' => $username]);
-    $user = $stmt->fetch();
-
-    if ($user && password_verify($password, $user['password'])) {
-        // Authentication successful
-        $_SESSION['user_id'] = $user['id'];
-        $_SESSION['is_verified'] = true; // Set user as verified
-        $_SESSION['first_name'] = $user['first_name']; // Store the user's first name
-        header('Location: index.php'); // Redirect to dashboard after successful login
-        exit;
-    } else {
-        // Authentication failed
-        echo "Invalid username or password.";
-        // // Debugging output
-        // echo "<pre>";
-        // echo "Username from form: $username\n";
-        // echo "Password from form: $password\n";
-        // echo "Hashed password from DB: " . $user['password'] . "\n";
-        // echo "</pre>";
-    }
-}
-
 
 
 ?>
