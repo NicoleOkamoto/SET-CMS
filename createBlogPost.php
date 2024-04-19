@@ -1,112 +1,132 @@
+
 <?php
 
-require ('connect.php');
-require ('authenticate.php');
-
+require('connect.php');
+require('authenticate.php');
 
 $errorMessage = "";
 
 // Check if the form is submitted via POST method
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    // Check if title or contentBlog is empty
-    if (empty($_POST['title']) || empty($_POST['contentBlog'])) {
+    // Check if title, contentBlog, and author name are empty
+    if (empty($_POST['title']) || empty($_POST['contentBlog']) || empty($_POST['author'])) {
         // Set error message
-        $errorMessage = "Attention: Title and content are required!";
-        // Validation error message in JS - following PDO requirement 
+        $errorMessage = "Attention: Title, content, and author name are required!";
+        // Validation error message in JS - following PDO requirement
         echo "<script>alert('$errorMessage');</script>";
     } else {
         // Sanitize user input to escape HTML entities and filter out dangerous characters.
         $title = filter_input(INPUT_POST, 'title', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
         $contentBlog = filter_input(INPUT_POST, 'contentBlog', FILTER_SANITIZE_STRING);
+        $author = filter_input(INPUT_POST, 'author', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
-        // Build the parameterized SQL query
-        $query = "INSERT INTO blog (title, contentBlog) VALUES (:title, :contentBlog)";
-        $statement = $pdo->prepare($query);
+        // Image upload handling
+        $image_post = "";
+        if ($_FILES['image_blog']['error'] === UPLOAD_ERR_OK) {
+            $tempFile = $_FILES['image_blog']['tmp_name'];
+            $targetDir = 'uploads/';
+            $targetFile = $targetDir . basename($_FILES['image_blog']['name']);
+            $imageFileType = strtolower(pathinfo($targetFile, PATHINFO_EXTENSION));
 
-        // Bind values to the parameters
-        $statement->bindValue(':title', $title);
-        $statement->bindValue(':contentBlog', $contentBlog);
+            // Check file size (limit to 5MB)
+            if ($_FILES['image_blog']['size'] > 5 * 1024 * 1024) {
+                $errorMessage = "Image file is too large. Please upload an image under 5MB.";
+                echo "<script>alert('$errorMessage');</script>";
+            } // Allow certain file formats
+            else if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg" && $imageFileType != "gif") {
+                $errorMessage = "Only JPG, JPEG, PNG & GIF files are allowed.";
+                echo "<script>alert('$errorMessage');</script>";
+            } else {
+                // Move the uploaded file to the target directory
+                if (move_uploaded_file($tempFile, $targetFile)) {
+                    $image_post = $targetFile;
+                } else {
+                    $errorMessage = "Error uploading the image.";
+                    echo "<script>alert('$errorMessage');</script>";
+                }
+            }
+        }
 
-        // Execute the INSERT
-        if ($statement->execute()) {
-            // Success message if needed
-        } else {
-            // Display an error message in JS - following PDO requirement 
-            echo "<script>alert('Error creating the blog post.');</script>";
+        if (empty($errorMessage)) {
+            // Build the parameterized SQL query
+            $query = "INSERT INTO blog (title, contentBlog, author, image_post) VALUES (:title, :contentBlog, :author, :image_post)";
+            $statement = $pdo->prepare($query);
+
+            // Bind values to the parameters
+            $statement->bindValue(':title', $title);
+            $statement->bindValue(':contentBlog', $contentBlog);
+            $statement->bindValue(':author', $author);
+            $statement->bindValue(':image_post', $image_post);
+
+            // Execute the INSERT
+            if ($statement->execute()) {
+                // Success message if needed
+            } else {
+                // Display an error message in JS - following PDO requirement
+                echo "<script>alert('Error creating the blog post.');</script>";
+            }
         }
     }
 }
-
-
-
 
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create New Post</title>
-    <!-- Include Quill Stylesheet -->
-    <link href="https://cdn.jsdelivr.net/npm/quill@2.0.0/dist/quill.snow.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>Create Blog Post</title>
+    <!-- Include Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.4.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Include Quill stylesheet -->
+    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
 </head>
 
 <body>
-    <div class='container'>
-        <header class="bg-light py-2 d-flex justify-content-between align-items-center px-3 mb-3">
-            <!-- Logo -->
-            <div class="logo">
-                <img src="images/SET-BOOKS.png" alt="Logo" height="90px">
+    <div class="container">
+        <h1>Create Blog Post</h1>
+        <form action="" method="POST" enctype="multipart/form-data">
+            <div class="mb-3">
+                <label for="title" class="form-label">Title:</label>
+                <input type="text" id="title" name="title" class="form-control" required>
             </div>
-            
-        </header>
 
+            <div class="mb-3">
+                <label for="contentBlog" class="form-label">Content:</label>
+                <div id="editor" style="height: 300px;"></div>
+                <input type="hidden" id="contentBlog" name="contentBlog" class="form-control">
+            </div>
 
-        <h1>Create a new Blog Post</h1>
-        
-        <!-- Create the editor container for the title -->
-        <div id="titleEditor" class="mb-3"></div>
+            <div class="mb-3">
+                <label for="author" class="form-label">Author:</label>
+                <input type="text" id="author" name="author" class="form-control" required>
+            </div>
 
-        <!-- Create the editor container for the contentBlog -->
-        <div id="contentEditor" class="mb-3"></div>
+            <div class="mb-3">
+                <label for="image_blog" class="form-label">Image:</label>
+                <input type="file" id="image_blog" name="image_blog" class="form-control" accept="image/*" required>
+            </div>
 
-        <!-- Form to submit new post -->
-        <form method="post" action="createBlogPost.php">
-            <!-- Hidden input field to store Quill content of title -->
-            <input type="hidden" id="titleInput" name="title">
-            <!-- Hidden input field to store Quill content of contentBlog -->
-            <input type="hidden" id="contentBlogInput" name="contentBlog">
-            <button type="submit" class="btn btn-primary">Create New Post</button>
+            <button type="submit" class="btn btn-primary">Submit</button>
         </form>
     </div>
 
-    <!-- Include the Quill library -->
-    <script src="https://cdn.jsdelivr.net/npm/quill@2.0.0/dist/quill.js"></script>
-
-    <!-- Initialize Quill editor for title -->
+    <!-- Include Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.4.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Include Quill library -->
+    <script src="https://cdn.quilljs.com/1.3.6/quill.min.js"></script>
     <script>
-        const titleEditor = new Quill('#titleEditor', {
-            theme: 'snow',
-            placeholder: 'Enter title...'
+        var quill = new Quill('#editor', {
+            theme: 'snow'
         });
-    </script>
-
-    <!-- Initialize Quill editor for contentBlog -->
-    <script>
-        const contentEditor = new Quill('#contentEditor', {
-            theme: 'snow',
-            placeholder: 'Enter content...'
-        });
-
-        // Listen for form submission
-        document.querySelector('form').addEventListener('submit', function() {
-            // Populate the hidden input field with Quill content of title
-            document.querySelector('#titleInput').value = titleEditor.root.innerHTML;
-            // Populate the hidden input field with Quill content of contentBlog
-            document.querySelector('#contentBlogInput').value = contentEditor.root.innerHTML;
-        });
+        // Set hidden input value to Quill content on form submit
+        document.querySelector('form').onsubmit = function() {
+            document.querySelector('#contentBlog').value = quill.root.innerHTML;
+        };
     </script>
 </body>
+
 </html>

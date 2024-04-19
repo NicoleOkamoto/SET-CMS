@@ -2,8 +2,10 @@
 require('connect.php');
 require('authenticate.php');
 
+
+//CREATE NEW USER SECTION
 // Check if the form create user form was submitted
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['create_user'])) {
     // Sanitize inputs
     $username = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_STRING);
     $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
@@ -18,6 +20,50 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo "User created successfully.";
     } else {
         echo "Error creating user.";
+    }
+}
+
+//EDIT BLOG SECTION
+// Query to fetch all blog post titles
+$query = "SELECT id, title FROM blog";
+$statement = $pdo->query($query);
+$posts = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+
+//CHANGE HOMEPAGE IMAGE
+// Check if the form was submitted
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['change_image'])) {
+    // Check if a file was selected
+    if ($_FILES['header_image']['error'] === UPLOAD_ERR_OK) {
+        $tempFile = $_FILES['header_image']['tmp_name'];
+        $targetDir = 'uploads/';
+        $targetFile = $targetDir . basename($_FILES['header_image']['name']);
+        $imageFileType = strtolower(pathinfo($targetFile, PATHINFO_EXTENSION));
+
+        // Check file size (limit to 5MB)
+        if ($_FILES['header_image']['size'] > 5 * 1024 * 1024) {
+            $errorMessage = "Image file is too large. Please upload an image under 5MB.";
+            echo "<script>alert('$errorMessage');</script>";
+        } // Allow certain file formats
+        else if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg" && $imageFileType != "gif") {
+            $errorMessage = "Only JPG, JPEG, PNG & GIF files are allowed.";
+            echo "<script>alert('$errorMessage');</script>";
+        } else {
+            // Read the file contents and convert to LONGBLOB
+            $imageData = file_get_contents($tempFile);
+
+            // Update the header image in the database
+            $query = "UPDATE settings SET header_image = :header_image WHERE id = 1";
+            $statement = $pdo->prepare($query);
+            $statement->bindParam(':header_image', $imageData, PDO::PARAM_LOB);
+            if ($statement->execute()) {
+                $successMessage = "Header image updated successfully.";
+                echo "<script>alert('$successMessage');</script>";
+            } else {
+                $errorMessage = "Error updating header image.";
+                echo "<script>alert('$errorMessage');</script>";
+            }
+        }
     }
 }
 ?>
@@ -53,15 +99,43 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <label for="business_name" class="form-label">Business Name:</label><br>
         <input type="text"  class="form-control" id="business_name" name="business_name" required><br><br>
         
-        <button type="submit" class="btn btn-primary">Create User</button>
+        <button className="create_user" type="submit" class="btn btn-primary">Create User</button>
     </form>
 </div>
 </div>
 
 </form>
-<h2>Edit Blog</h2>
-<li><a href="createBlogPost.php">New Post</a></li>
-<li><a href="editBlog.php">EditBlog</a></li>
+
+<!-- Link to view Blog Titles -Edit Blog Posts -->
+<div class="container">
+        <h1>Edit Blog</h1>
+        <div class="row row-cols-3 g-3">
+            <?php foreach ($posts as $post) : ?>
+                <div class="col">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title"><?= $post['title'] ?></h5>
+                            <a href="editBlog.php?id=<?= $post['id'] ?>" class="btn btn-primary">Edit</a>
+                        </div>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+        </div>
+    </div>
+
+<!-- upload header image -->
+    <div class="container">
+        <h1>Upload Header Image</h1>
+        <form method="post" enctype="multipart/form-data">
+            <div class="mb-3">
+                <label for="header_image" class="form-label">Select Image:</label>
+                <input type="file" class="form-control" id="header_image" name="header_image" accept="image/*" required>
+            </div>
+            <button className="change_image" type="submit" class="btn btn-primary">Upload Image</button>
+        </form>
+    </div>
+
+
 </div>
 </body>
 </html>

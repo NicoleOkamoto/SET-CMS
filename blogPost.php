@@ -1,8 +1,5 @@
 <?php
-
-
 require('connect.php');
-
 
 // Get the blog post ID from the URL
 $id = isset($_GET['id']) ? filter_var($_GET['id'], FILTER_VALIDATE_INT) : null;
@@ -37,6 +34,7 @@ $pageTitle = $row['title'];
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -45,25 +43,31 @@ $pageTitle = $row['title'];
     <link rel="stylesheet" href="stylesheet.css">
     <title><?= $pageTitle ?></title>
 </head>
-<?php require ('header.php'); ?>
 
 <body>
-    
-        <!-- Blog Post Content -->
-        <div class="col-lg-8 offset-lg-2">
+    <?php require('header.php'); ?>
+
+    <!-- Blog Post Content -->
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 offset-lg-2">
                 <div class="blog_post">
                     <!-- Display the blog post -->
                     <h1><?= $row['title'] ?></h1>
-                    <img src="data:image/jpeg;base64,<?= base64_encode($row['image_post']) ?>" class="img-fluid mb-4" alt="Blog Post Image"/>
+                    <?php if ($row['image_post']) : ?>
+                        <img src="<?= $row['image_post'] ?>" class="img-fluid mb-4" alt="Blog Post Image" />
+                    <?php endif; ?>
                     <p class="mb-2"><small><?= date('F d, Y, h:i a', strtotime($row['date'])) ?></small></p>
-                    <p><?= $row['contentBlog'] ?></p>
+                    <?= $row['contentBlog'] ?>
                     <h5><?= $row['author'] ?></h5>
                 </div>
             </div>
         </div>
-        <li><a href="editBlog.php">EditBlog</a></li>
-        <footer>
-<?php require ('footer.php'); ?>
-                    </footer>
+    </div>
+
+    <footer>
+        <?php require('footer.php'); ?>
+    </footer>
 </body>
+
 </html>

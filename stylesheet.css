@@ -11,20 +11,29 @@ html {
 .container {
   position: relative;
   width: 100%;
-  
   margin: auto;
 }
 
+/* Style for the image wrapper */
 .image-wrapper {
-  position: relative;
-  display: inline-block;
+  height: 500px; 
+  overflow: hidden;
+  position: relative; /* Ensure relative positioning for absolute positioning of the image */
 }
 
+/* Style for the cropped image */
+.cropped-image {
+  width: 100%; /* Ensure the image fills its container */
+  height: 500px; /* Set the height to a fixed value */
+  object-fit: cover; 
+}
+
+/* Style for the overlay */
 .overlay {
   position: absolute;
   top: 0;
   right: 0;
-  width: 50%; /* Adjust width to cover half of the image */
+  width: 50%; /* Covers 50% of the right side of the image */
   height: 100%;
   background-color: rgba(255, 255, 255, 0.7); /* Adjust opacity as needed */
   z-index: 1;
@@ -33,20 +42,21 @@ html {
   align-items: center;
 }
 
+/* Style for the form container */
 .form-container {
   width: max-content;
   z-index: 2;
   position: absolute;
   top: 50%;
-  left: 40%; /* Adjust left position to center form within the overlay */
-  transform: translate(-35%, -50%);
+  left: 50%; /* Adjust left position to center form within the overlay */
+  transform: translate(-50%, -50%);
   background-color: #fff;
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
 }
 
-.form-container  .form-title {
+.form-container .form-title {
   display: block;
   font-family: 'Aleo', sans-serif; /* Use the Aleo font */
   font-size: 1.7rem; /* Adjust font size as needed */
@@ -54,6 +64,8 @@ html {
   font-weight: bold;
   color: #4058d4; /* Use purple color */
 }
+
+
 
 /* footer styling */
 

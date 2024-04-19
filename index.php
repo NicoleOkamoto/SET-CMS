@@ -44,49 +44,88 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 ?>
 
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    
-    <div class="container mt-3">
-        <!-- Image with contact form -->
-        <div class="image-wrapper">
-            <img src="images/towfiqu-barbhuiya-JhevWHCbVyw-unsplash.jpg" class="img-fluid" alt="">
-            <div class="overlay">
-                <div class="form-container">
-                    <!-- Captcha form -->
-                    <script src="https://web3forms.com/client/script.js" async defer></script>
-                    <form class="form-container" id="myForm" action="https://api.web3forms.com/submit" method="POST">
-                        <input type="hidden" name="access_key" value="e5cbb0ea-9a92-40d9-b437-7e92202582e4">
-                        <label class="form-title">Book a Free Consultation!</label>
-                        <input class="form-control mb-3" type="text" name="name" placeholder="Name" required>
-                        <input class="form-control mb-3" type="email" name="email" placeholder="Email" required>
-                        <textarea class="form-control mb-3" name="message" rows="3" placeholder="Tell us about your needs!" required></textarea>
-                        <div class="h-captcha" data-captcha="true"></div>
-                        <button class="btn btn-primary" type="submit">Submit Form</button>
-                    </form>
-                </div>
+</head>
+<body>
+
+<div class="container mt-3">
+    <!-- Image with contact form -->
+    <div class="image-wrapper">
+        <?php
+        // Fetch the latest header image from the database
+        $query = "SELECT header_image FROM settings ORDER BY id DESC LIMIT 1";
+        $statement = $pdo->query($query);
+        
+        // Check if any rows were returned
+        if ($statement->rowCount() > 0) {
+            $row = $statement->fetch(PDO::FETCH_ASSOC);
+            $headerImage = $row['header_image'];
+            
+            // Output the image directly
+            echo '<img src="data:image/jpeg;base64,' . base64_encode($headerImage) . '" class="img-fluid cropped-image" alt="">';
+        } else {
+            echo '<p>No header image found.</p>';
+        }
+        ?>
+
+        <div class="overlay">
+            <div class="form-container">
+                <!-- Captcha form -->
+                <script src="https://web3forms.com/client/script.js" async defer></script>
+                <form class="form-container" id="myForm" action="https://api.web3forms.com/submit" method="POST">
+                    <input type="hidden" name="access_key" value="e5cbb0ea-9a92-40d9-b437-7e92202582e4">
+                    <label class="form-title">Book a Free Consultation!</label>
+                    <input class="form-control mb-3" type="text" name="name" placeholder="Name" required>
+                    <input class="form-control mb-3" type="email" name="email" placeholder="Email" required>
+                    <textarea class="form-control mb-3" name="message" rows="3" placeholder="Tell us about your needs!" required></textarea>
+                    <div class="h-captcha" data-captcha="true"></div>
+                    <button class="btn btn-primary" type="submit">Submit Form</button>
+                </form>
             </div>
         </div>
     </div>
+</div>
 
 
-    <!-- Grid with 4 elements -->
-    <div class="container mt-3">
-        <div class="row">
-            <!-- First grid element -->
-            <div class="col-md-3">
-                <!-- Image and short text -->
-            </div>
-            <!-- Repeat for the other grid elements -->
+<!-- Grid with 4 elements -->
+<div class="container mt-3">
+    <div class="row">
+        <!-- First grid element -->
+        <div class="col-md-3">
+            <img src="personal_file_tax_image.jpg" alt="Personal File Tax" class="img-fluid mb-2">
+            <h4>Personal File Tax</h4>
+            <p>Short description about Personal File Tax...</p>
+        </div>
+        <!-- Repeat for the other grid elements -->
+        <div class="col-md-3">
+            <img src="business_file_tax_image.jpg" alt="Business File Tax" class="img-fluid mb-2">
+            <h4>Business File Tax</h4>
+            <p>Short description about Business File Tax...</p>
+        </div>
+        <div class="col-md-3">
+            <img src="finance_audit_image.jpg" alt="Finance Audit" class="img-fluid mb-2">
+            <h4>Finance Audit</h4>
+            <p>Short description about Finance Audit...</p>
+        </div>
+        <div class="col-md-3">
+            <img src="bookkeeping_image.jpg" alt="Bookkeeping" class="img-fluid mb-2">
+            <h4>Bookkeeping</h4>
+            <p>Short description about Bookkeeping...</p>
         </div>
     </div>
+</div>
 
-<?php require ('footer.php'); ?>
+<footer>
+    <!-- Footer content -->
+    <?php require ('footer.php'); ?>
+</footer>
+
 <script src="script.js"></script>
 
+</body>
 </html>
