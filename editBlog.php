@@ -94,6 +94,44 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
+// Fetch comments for the blog post along with their IDs
+$query = "SELECT id, name, comment FROM comments WHERE post_id = :post_id";
+$statement = $pdo->prepare($query);
+$statement->bindValue(':post_id', $id, PDO::PARAM_INT);
+$statement->execute();
+$comments = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+
+// Check if the form to delete a comment is submitted
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_comment'])) {
+    // Get the comment ID from the form submission
+    $comment_id = isset($_POST['comment_id']) ? $_POST['comment_id'] : null;
+
+    // Check if the comment ID is valid
+    if ($comment_id) {
+        // Prepare the query to delete the comment from the database
+        $delete_query = "DELETE FROM comments WHERE id = :comment_id";
+        $delete_statement = $pdo->prepare($delete_query);
+
+        // Bind the comment ID parameter
+        $delete_statement->bindValue(':comment_id', $comment_id, PDO::PARAM_INT);
+
+        // Execute the deletion query
+        if ($delete_statement->execute()) {
+            // Comment deleted successfully
+            // Redirect back to the same page or wherever appropriate
+            header('Location: ' . $_SERVER['PHP_SELF']);
+            exit;
+        } else {
+            // Error occurred while deleting the comment
+            echo "Error deleting comment.";
+        }
+    } else {
+        // Invalid comment ID
+        echo "Invalid comment ID.";
+    }
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -210,6 +248,32 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 </script>
 
+<!-- Display Comments -->
+<div class="container mt-5">
+    <div class="comments">
+        <h5 class="mb-4">Comments:</h5>
+        <?php if (count($comments) > 0) : ?>
+            <?php $colors = ['#FFE4C2', '#FFF7F2']; ?>
+            <?php $colorIndex = 0; ?>
+            <?php foreach ($comments as $comment) : ?>
+                <div class="card mb-3" style="background-color: <?= $colors[$colorIndex % count($colors)] ?>;">
+                    <div class="card-body">
+                        <h5 class="card-title"><?= $comment['name'] ?></h5>
+                        <p class="card-text"><?= $comment['comment'] ?></p>
+                        <!-- Display delete button for each comment -->
+                        <form method="post">
+                            <input type="hidden" name="comment_id" value="<?= $comment['id'] ?>">
+                            <button type="submit" class="btn btn-danger" name="delete_comment">Delete</button>
+                        </form>
+                    </div>
+                </div>
+                <?php $colorIndex++; ?>
+            <?php endforeach; ?>
+        <?php else : ?>
+            <p>No comments on this post!</p>
+        <?php endif; ?>
+    </div>
+</div>
 
 </body>
 
