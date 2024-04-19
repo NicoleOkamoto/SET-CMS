@@ -60,7 +60,7 @@ $verified_user = isset($_SESSION['is_verified']) && $_SESSION['is_verified'];
     </div>
 </div>
 
-
+<div class="container">
 <div class="container-fluid py-5 bg-light">
     <h1 class="mb-4 text-center .text-secondary">Our Services</h1>
     <div class="row">
@@ -109,6 +109,7 @@ $verified_user = isset($_SESSION['is_verified']) && $_SESSION['is_verified'];
         <a href="services.php" class="btn btn-primary btn-lg mt-5">Learn More About Our Services</a>
     </div>
 </div>
+                </div>
 
 <!-- Include Bootstrap CSS -->
 <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
@@ -118,10 +119,10 @@ $verified_user = isset($_SESSION['is_verified']) && $_SESSION['is_verified'];
     <!-- Title -->
     <h3 class="text-center">What our customers are saying:</h3>
 
-    <div class="carousel-inner">
+    <div class="carousel-inner mr-5 ml-5">
         <!-- Review 1 -->
-        <div class="carousel-item active">
-            <div class="carousel-content">
+        <div class="carousel-item active pd-5 mb-5">
+            <div class="carousel-content mr-5 ml-5">
                 <h4 class="text-center">Oh My-Donuts</h3>
                 <div class="rating text-center">
                     ★★★★★
@@ -164,7 +165,6 @@ $verified_user = isset($_SESSION['is_verified']) && $_SESSION['is_verified'];
 <!-- Include Bootstrap JS and jQuery -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 <!-- Custom JavaScript -->
 <script>

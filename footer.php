@@ -9,6 +9,16 @@
 
 </head>
 
+<div class="custom-footer py-2 d-flex justify-content-left">    
+    <div class="container custom-contact-info py-2 d-flex justify-content-left">
+        <!-- Contact info on the left -->
+        <p class="contact-info-item">Email: info@setbooks.ca    |</p>
+        <p class="contact-info-item">Phone: (236) 593 8958    |</p>
+        <p class="contact-info-item">Location: Winnipeg, MB 🍁</p>
+        <a href="admin.php" class="footer-link">Admin Login</a>
+    </div>
+</div>
+
 <footer>
     <!-- Footer -->
     <div class="bg-light py-2 d-flex justify-content-center align-items-center">
@@ -19,17 +29,6 @@
 </div>
 
 
-    <div class="custom-footer py-2 d-flex flex-column align-items-end">    
-    <!-- Social media links -->
-  
 
-    <div class="container">
-        <!-- Footer content here -->
-        <a href="admin.php" class="footer-link">Admin Login</a>
-    </div>
-
-
-  
-</div>
 </footer>
 </html>

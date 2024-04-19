@@ -82,7 +82,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['login'])) {
 </div>
 
 <!-- Navigation bar -->
-<nav class="navbar navbar-expand-lg navbar-light mt-3">    
+<nav class="navbar navbar-expand-lg navbar-light mt-1">    
     <div class="container">
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -97,6 +97,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['login'])) {
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="blog.php">🔹Info Hub</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="contactUs.php">🔹Contact Us</a>
             </li>
         </ul>
     </div>

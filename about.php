@@ -27,7 +27,7 @@ require('connect.php');
             <p>S&T Books is a renowned Canadian firm based in Winnipeg specializing in providing expert accounting and personal tax return services. With a mission to create a welcoming environment centered on trust, care, and genuine support, S&T Books is committed to delivering friendly, reliable, and judgment-free assistance to its clients.</p>
         </section>
 
-        <section class="team">
+        <section class="team mb-3">
             <h2>Meet our Team</h2>
             <div class="d-flex justify-content-around">
                 <div class="team-member">

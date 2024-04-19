@@ -150,24 +150,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_comment'])) {
 
 <body>
 
-<div class="container mt-5">
-    <header>
-        <nav class="navbar navbar-light bg-light">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="index.php">
-                    <img src="images/Nicole_Blog_Logo.png" alt="Logo" height="30" class="d-inline-block align-top">
-                </a>
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link" href="index.php">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="createBlogPost.php">New Post</a>
-                    </li>
-                </ul>
-            </div>
-        </nav>
-    </header>
+<?php require('adminHeader.php'); ?>
 
 <!-- Display form with title, author, content, and image being edited -->
 <form method="post" enctype="multipart/form-data">

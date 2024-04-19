@@ -58,7 +58,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['query'])) {
 </head>
 
 <body>
-    <div class="container">
+    
         <header>
             <?php require('header.php'); ?>
         </header>
@@ -91,7 +91,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['query'])) {
                 </div>
             <?php endforeach; ?>
         <?php endif; ?>
-
+        <div class="container">
         <?php if ($statement->rowCount() > 0): ?>
             <!-- Display recent blog posts -->
             <div class="row justify-content-center">
@@ -106,7 +106,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['query'])) {
                                 echo $limitedcontent;
                                 ?>
                                 <?php if (strlen($row['contentBlog']) > 200): ?>
-                                    <a href='blogPost.php?id=<?= $row['id'] ?>' class="btn btn-primary">Read Full Post</a>
+                                    <a href='blogPost.php?id=<?= $row['id'] ?>' >Read Full Post</a>
                                 <?php endif; ?>
                             </p>
                         </div>
@@ -139,7 +139,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['query'])) {
             </nav>
  
         <?php endif; ?>
-    </div>
+
 
     <!-- Bootstrap JavaScript and dependencies -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
@@ -147,8 +147,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['query'])) {
         <?php require('footer.php'); ?>
     </footer>
 </body>
-
-</html>
-
 
 </html>

@@ -89,26 +89,23 @@ html {
 }
 
 
-
-
-
-
-
-
-
 /* footer styling */
-
-footer {
-  background-color: #FFA735;
+.custom-footer{
+background-color: #FFA735;
 }
 
-.footer-link {
-  color: #FFA735;
-  text-decoration: none;
-  transition: color 0.3s ease; /* Smooth transition for color change */
-}
+  /* Style for the admin login link */
+  .footer-link {
+    color: #FFA735; /* Set the default color to #FFA735 */
+    transition: color 0.3s ease; /* Smooth transition for color change */
+  }
 
-.footer-link:hover {
+  /* Change color on hover */
+  .footer-link:hover {
+    color: #4058d4; /* Change to desired hover color */
+  }
+
+a .footer .contact-info-item {
   color: white;
 }
 
@@ -162,10 +159,14 @@ h3{
 
 .nav-item{
   font-family: 'Chivo', sans-serif; /* Use the Aleo font */
-  font-size: 1.5rem; /* Adjust font size as needed */
+  font-size: 1.3rem; /* Adjust font size as needed */
   color: #4058d4; /* Use purple color */
 }
 
+.contact-info-item{
+  color: #FFF;
+  margin: 2px;
+}
 
 
 /* Change color on hover */

@@ -116,7 +116,7 @@ $comments = $statement->fetchAll(PDO::FETCH_ASSOC);
 
 
             <!-- Comment Form -->
-            <div class="comment-form mt-5">
+            <div class="comment-form mb-3 mt-5">
                 <h3 class="mb-4">Add a Comment</h3>
                 <form method="post">
                     <div class="mb-3">
