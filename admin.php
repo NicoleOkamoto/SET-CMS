@@ -81,8 +81,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['change_image'])) {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <title>Admin Portal</title>
 </head>
+<?php require('adminHeader.php'); ?>
 <body>
-    <h1>Admin Portal</h1>
+    
     <div class="container">
     
     <h2>Create New User</h2>
@@ -127,11 +128,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['change_image'])) {
 
 <!-- Link to view Blog Titles -Edit Blog Posts -->
 <div class="container">
-        <h1>Edit Blog</h1>
+        <h2>Edit Blog Post</h2>
+        <div class="container mt-3">
+        <a href="createBlogPost.php" class="btn btn-primary">Create Blog Post</a>
+    </div>
         <div class="row row-cols-3 g-3">
             <?php foreach ($posts as $post) : ?>
                 <div class="col">
-                    <div class="card">
+                    <div class="card border">
                         <div class="card-body">
                             <h5 class="card-title"><?= $post['title'] ?></h5>
                             <a href="editBlog.php?id=<?= $post['id'] ?>" class="btn btn-primary">Edit</a>
@@ -143,8 +147,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['change_image'])) {
     </div>
 
 <!-- upload header image -->
-    <div class="container">
-        <h1>Upload Header Image</h1>
+    <div class="container mb-3 mt-3">
+        <h2>Upload Header Image</h2>
         <form method="post" enctype="multipart/form-data">
             <div class="mb-3">
                 <label for="header_image" class="form-label">Select Image:</label>

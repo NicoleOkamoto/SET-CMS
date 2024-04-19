@@ -73,7 +73,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     // Handle additional button actions
-    if (isset($_POST['view_post'])) {
+    if (isset($_POST['submit_update'])) {
         // Handle view post action
         header("Location: blogPost.php?id={$id}");
         exit;
@@ -132,6 +132,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_comment'])) {
     }
 }
 
+
 ?>
 
 <!DOCTYPE html>
@@ -154,7 +155,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_comment'])) {
 
 <!-- Display form with title, author, content, and image being edited -->
 <form method="post" enctype="multipart/form-data">
-                   
+<?php if (!empty($errorMessage)): ?>
+                <div class="alert alert-danger" role="alert">
+                    <?= $errorMessage ?>
+                </div>
+            <?php endif ?>                   
         <div class="mb-3">
             <label for="title" class="form-label">Title</label>
             <input type="text" class="form-control" id="title" name="title" value="<?= $post['title'] ?>">
@@ -187,19 +192,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_comment'])) {
             <?php endif ?>
             <button type="submit" class="btn btn-primary" name="submit_update">Submit Update & Exit</button>
             <button type="submit" class="btn btn-warning" name="submit_continue_editing">Submit and Continue Editing</button>
-            <button type="button" class="btn btn-danger" onclick="confirmDelete()">Delete Post</button>
+            <button type="button" class="btn btn-danger" name="delete_post" onclick="confirmDelete()">Delete Post</button>
     <input type="hidden" name="id" value="<?= $post['id'] ?>">
     <input type="hidden" name="delete" value="1"> <!-- Add a hidden input to indicate deletion -->
         </div>
     </form>
 
-    <script>
-    function confirmDelete() {
-        if (confirm('Are you sure you wish to delete this post?')) {
-            document.getElementById('deleteForm').submit(); // Submit the form
-        }
-    }
-</script>
 
 
 </div>
@@ -224,7 +222,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_comment'])) {
 
     // Confirm delete post action
     function confirmDelete() {
-        if (confirm('Are you sure you wish to delete this post?')) {
+        if (confirm('Are you sure you wish to delete this?')) {
             document.querySelector('input[name="delete"]').value = true;
             document.querySelector('form').submit();
         }

@@ -84,7 +84,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     <!-- Include Quill stylesheet -->
     <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
 </head>
-
+<?php require('adminHeader.php'); ?>
 <body>
     <div class="container">
         <h1>Create Blog Post</h1>
