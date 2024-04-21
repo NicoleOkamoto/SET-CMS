@@ -1,15 +1,9 @@
 <?php
 
-
 require('connect.php');
-
 require ('header.php');
-// Fires off a session cookie
-
 
 $verified_user = isset($_SESSION['is_verified']) && $_SESSION['is_verified'];
-
-
 
 ?>
 
@@ -19,6 +13,7 @@ $verified_user = isset($_SESSION['is_verified']) && $_SESSION['is_verified'];
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>S&T Books</title>
 </head>
 <body>
 
@@ -115,11 +110,12 @@ $verified_user = isset($_SESSION['is_verified']) && $_SESSION['is_verified'];
 <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 
 <!-- Customers Review Carousel -->
+
 <div id="googleReviewCarousel" class="carousel slide" data-ride="carousel">
     <!-- Title -->
     <h3 class="text-center">What our customers are saying:</h3>
 
-    <div class="carousel-inner mr-5 ml-5">
+    <div class="carousel-inner">
         <!-- Review 1 -->
         <div class="carousel-item active pd-5 mb-5">
             <div class="carousel-content mr-5 ml-5">
@@ -150,7 +146,7 @@ $verified_user = isset($_SESSION['is_verified']) && $_SESSION['is_verified'];
                 <p class="text-center italic">""S&T Books has been instrumental in managing my business's bookkeeping needs. Their comprehensive bookkeeping service has streamlined our financial processes and provided us with valuable insights into our financial health. Their team is attentive, reliable, and always goes above and beyond to ensure accuracy and efficiency. Thanks to S&T Books, I can focus on growing my business with confidence, knowing that our finances are in capable hands.""</p>
             </div>
         </div>
-    </div>
+  
     <!-- Next/Prev controls -->
     <a class="carousel-control-prev" href="#googleReviewCarousel" role="button" data-slide="prev">
         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -161,6 +157,7 @@ $verified_user = isset($_SESSION['is_verified']) && $_SESSION['is_verified'];
         <span class="sr-only">Next</span>
     </a>
 </div>
+                </div>
 
 <!-- Include Bootstrap JS and jQuery -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
