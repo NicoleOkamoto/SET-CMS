@@ -217,3 +217,42 @@ h3{
   width: 60%;
   margin: 0 auto; /* Center the container */
 }
+
+
+
+
+/* Custom CSS */
+
+#googleReviewCarousel {
+    height: 400px; /* Fixed height for the whole carousel section */
+}
+
+.carousel-content {
+    text-align: center;
+    position: relative;
+    height: 300px; /* Fixed height for each item */
+
+}
+
+.carousel-content img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    margin-bottom: 20px;
+}
+
+.carousel-control-prev,
+.carousel-control-next {
+    z-index: 1; /* Ensure controls are above content */
+    background: none; /* Remove default background */
+    border: none; /* Remove default border */
+    color: #000; /* Set color to black */
+}
+
+.carousel-item {
+    padding: 20px;
+}
+
+.carousel-item p {
+    margin-bottom: 0; /* Remove default margin for paragraph */
+}
