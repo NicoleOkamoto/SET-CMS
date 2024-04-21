@@ -46,7 +46,7 @@ $verified_user = isset($_SESSION['is_verified']) && $_SESSION['is_verified'];
 
             <div class="overlay">
                 <div class="form-container">
-                    <!-- Captcha form -->
+                    <!-- Captcha form created through Web3Forms API-->
                     <script src="https://web3forms.com/client/script.js" async defer></script>
                     <form class="form-container" id="myForm" action="https://api.web3forms.com/submit" method="POST">
                         <input type="hidden" name="access_key" value="e5cbb0ea-9a92-40d9-b437-7e92202582e4">
@@ -131,15 +131,92 @@ $verified_user = isset($_SESSION['is_verified']) && $_SESSION['is_verified'];
             <div class="text-center">
                 <a href="services.php" class="btn btn-primary btn-lg mt-5">Learn More About Our Services</a>
             </div>
+
+        </div>
+
+        <!-- Customers Review Carousel -->
+        <div id="googleReviewCarousel" class="carousel slide" data-ride="carousel">
+
+            <div class="carousel-inner">
+                <!-- Review 1 -->
+                <div class="carousel-item active pd-5 mb-5">
+                    <div class="carousel-content mr-5 ml-5">
+                        <img src="images/kobby-mendez-q54Oxq44MZs-unsplash.jpg" alt="Customer Image">
+                        <h4 class="text-center">Oh My-Donuts</h4>
+                        <div class="rating text-center">
+                            ⭐️⭐️⭐️⭐️⭐️
+                        </div>
+                        <p class="text-center italic">"S&T Books exceeded my expectations with their Enterprise Finance
+                            Audit service. Their team demonstrated exceptional attention to detail and professionalism
+                            throughout the auditing process. They provided valuable insights that helped us optimize our
+                            financial strategies and improve our overall efficiency. I highly recommend S&T Books to any
+                            enterprise seeking thorough and reliable financial audit services."</p>
+                    </div>
+                </div>
+                <!-- Review 2 -->
+                <div class="carousel-item">
+                    <div class="carousel-content">
+                        <img src="images/jurica-koletic-7YVZYZeITc8-unsplash.jpg" alt="Customer Image">
+                        <h4 class="text-center">Renan Luis</h4>
+                        <div class="rating text-center">
+                            ⭐️⭐️⭐️⭐️⭐️
+                        </div>
+                        <p class="text-center italic">"Choosing S&T Books for my personal file tax needs was one of the
+                            best
+                            decisions I've made. Their dedicated team provided personalized assistance and guidance,
+                            ensuring that my tax returns were handled accurately and efficiently. They helped me
+                            maximize
+                            deductions and minimize tax liabilities, resulting in significant savings. With their
+                            expertise
+                            and attention to detail, tax season has become stress-free for me. Thank you, S&T Books, for
+                            your exceptional service!"</p>
+                    </div>
+                </div>
+                <!-- Review 3 -->
+                <div class="carousel-item">
+                    <div class="carousel-content">
+                        <img src="images/eduardo-cano-photo-co-7OO7KJpzlHM-unsplash.jpg" alt="Customer Image">
+                        <h4 class="text-center">Barber Shop Transcona</h4>
+                        <div class="rating text-center">
+                            ⭐️⭐️⭐️⭐️⭐️
+                        </div>
+                        <p class="text-center italic">"S&T Books has been instrumental in managing my business's
+                            bookkeeping
+                            needs. Their comprehensive bookkeeping service has streamlined our financial processes and
+                            provided us with valuable insights into our financial health. Their team is attentive,
+                            reliable,
+                            and always goes above and beyond to ensure accuracy and efficiency. Thanks to S&T Books, I
+                            can
+                            focus on growing my business with confidence, knowing that our finances are in capable
+                            hands."
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <!-- Next/Prev controls/ kept hidden -->
+            <a class="carousel-control-prev" href="#googleReviewCarousel" role="button" data-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="sr-only"></span>
+            </a>
+            <a class="carousel-control-next" href="#googleReviewCarousel" role="button" data-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="sr-only"></span>
+            </a>
+
         </div>
     </div>
 
-    <?php require ('review-carrousel.php'); ?>
 
-    <!-- Footer content -->
+    <!-- Include Bootstrap JS and jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    </div>
+
     <footer>
+
         <?php require ('footer.php'); ?>
+
     </footer>
-
-
 </html>

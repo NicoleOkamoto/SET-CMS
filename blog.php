@@ -56,63 +56,63 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['query'])) {
     <link rel="stylesheet" href="stylesheet.css">
     <title>S&T Books Information Hub</title>
 </head>
-
-<body>
     
         <header>
             <?php require('header.php'); ?>
         </header>
+        
+<body>
 
-        <h1 class="text-center mb-4">Info Hub:</h1>
+<div class="container">
+    <h1 class="text-center mb-4">Info Hub:</h1>
 
-        <!-- Search bar -->
-        <form method="GET" class="search-container">
-            <div class="input-group">
-                <input type="text" name="query" class="form-control" placeholder="Search for posts by title or content..." value="<?= isset($_GET['query']) ? $_GET['query'] : '' ?>">
-                <button type="submit" class="btn btn-primary">Search</button>
-            </div>
-        </form>
+    <!-- Search bar -->
+    <form method="GET" class="search-container">
+        <div class="input-group">
+            <input type="text" name="query" class="form-control" placeholder="Search for posts by title or content..." value="<?= isset($_GET['query']) ? $_GET['query'] : '' ?>">
+            <button type="submit" class="btn btn-primary">Search</button>
+        </div>
+    </form>
 
-        <?php if (!empty($error_message)): ?>
-            <div class="alert alert-danger" role="alert">
-                <?= $error_message ?>
-            </div>
-        <?php elseif (!empty($search_results)): ?>
-            <!-- Display search results -->
-            <?php foreach ($search_results as $result): ?>
-                <div class="row justify-content-center">
-                    <div class="col-lg-8">
-                        <div class='blog-post'>
-                            <h2><a href='blogPost.php?id=<?= $result['id'] ?>'><?= $result['title'] ?></a></h2>
-                            <small><?= date('F d, Y, h:i a', strtotime($result['date'])) ?></small>
-                            <p><?= $result['contentBlog'] ?></p>
-                        </div>
+    <?php if (!empty($error_message)): ?>
+        <div class="alert alert-danger" role="alert">
+            <?= $error_message ?>
+        </div>
+    <?php elseif (!empty($search_results)): ?>
+        <!-- Display search results -->
+        <?php foreach ($search_results as $result): ?>
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class='blog-post'>
+                        <h2><a href='blogPost.php?id=<?= $result['id'] ?>'><?= $result['title'] ?></a></h2>
+                        <small><?= date('F d, Y, h:i a', strtotime($result['date'])) ?></small>
+                        <p><?= $result['contentBlog'] ?></p>
                     </div>
                 </div>
-            <?php endforeach; ?>
-        <?php endif; ?>
-        <div class="container">
-        <?php if ($statement->rowCount() > 0): ?>
-            <!-- Display recent blog posts -->
-            <div class="row justify-content-center">
-                <?php while ($row = $statement->fetch(PDO::FETCH_ASSOC)): ?>
-                    <div class="col-lg-12">
-                        <div class='blog-post'>
-                            <h2><a href='blogPost.php?id=<?= $row['id'] ?>'><?= $row['title'] ?></a></h2>
-                            <small><?= date('F d, Y, h:i a', strtotime($row['date'])) ?></small>
-                            <p>
-                                <?php
-                                $limitedcontent = strlen($row['contentBlog']) > 200 ? substr($row['contentBlog'], 0, 200) . '...' : $row['contentBlog'];
-                                echo $limitedcontent;
-                                ?>
-                                <?php if (strlen($row['contentBlog']) > 200): ?>
-                                    <a href='blogPost.php?id=<?= $row['id'] ?>' >Read Full Post</a>
-                                <?php endif; ?>
-                            </p>
-                        </div>
-                    </div>
-                <?php endwhile; ?>
             </div>
+        <?php endforeach; ?>
+    <?php endif; ?>
+
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        <?php while ($row = $statement->fetch(PDO::FETCH_ASSOC)): ?>
+            <div class="col">
+                <div class="card h-100">
+                    <img src="<?= $row['image_post'] ?>" class="card-img-top" alt="Thumbnail Image">
+                    <div class="card-body">
+                        <h5 class="card-title"><?= $row['title'] ?></h5>
+                        <small class="text-muted"><?= date('F d, Y, h:i a', strtotime($row['date'])) ?></small>
+                        <p class="card-text"><?= strlen($row['contentBlog']) > 200 ? substr($row['contentBlog'], 0, 200) . '...' : $row['contentBlog'] ?></p>
+                        <?php if (strlen($row['contentBlog']) > 200): ?>
+                            <a href='blogPost.php?id=<?= $row['id'] ?>' class="btn btn-primary">Read Full Post</a>
+                        <?php endif; ?>
+                    </div>
+                </div>
+            </div>
+        <?php endwhile; ?>
+    </div>
+</div>
+
+
 
             <!-- Pagination -->
             <nav aria-label="Page navigation">
@@ -138,14 +138,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['query'])) {
                 </ul>
             </nav>
  
-        <?php endif; ?>
-
+        
+                    </div>
 
     <!-- Bootstrap JavaScript and dependencies -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <footer>
         <?php require('footer.php'); ?>
     </footer>
+
 </body>
 
 </html>

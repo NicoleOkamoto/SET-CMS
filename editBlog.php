@@ -160,27 +160,32 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_comment'])) {
                     <?= $errorMessage ?>
                 </div>
             <?php endif ?>                   
-        <div class="mb-3">
-            <label for="title" class="form-label">Title</label>
-            <input type="text" class="form-control" id="title" name="title" value="<?= $post['title'] ?>">
-        </div>
-        <div class="mb-3">
-            <label for="author" class="form-label">Author</label>
-            <input type="text" class="form-control" id="author" name="author" value="<?= $post['author'] ?>">
-        </div>
-        <div class="mb-3">
-            <label for="contentBlog" class="form-label">Content</label>
-            <div id="editor" style="height: 300px;"><?= $post['contentBlog'] ?></div>
-            <input type="hidden" name="contentBlog">
-        </div>
-        <div class="mb-3">
-            <label for="image" class="form-label">Current Image</label><br>
-            <img src="<?= $post['image_post'] ?>" alt="Current Image" style="max-width: 100%; height: auto;">
-        </div>
-        <div class="mb-3">
-            <label for="image" class="form-label">Edit Image</label><br>
-            <input type="file" class="form-control" id="image" name="image">
-        </div>
+            <form method="post" enctype="multipart/form-data">
+    <div class="mb-3">
+        <label for="title" class="form-label">Title</label>
+        <input type="text" class="form-control" id="title" name="title" value="<?= $post['title'] ?>">
+    </div>
+    <div class="mb-3">
+        <label for="author" class="form-label">Author</label>
+        <input type="text" class="form-control" id="author" name="author" value="<?= $post['author'] ?>">
+    </div>
+    <div class="mb-3">
+        <label for="contentBlog" class="form-label">Content</label>
+        <textarea class="form-control" id="contentBlog" name="contentBlog"><?= $post['contentBlog'] ?></textarea>
+    </div>
+    <div class="mb-3">
+        <label for="image" class="form-label">Current Image</label><br>
+        <img src="<?= $post['image_post'] ?>" alt="Current Image" style="max-width: 100%; height: auto;">
+    </div>
+    <div class="mb-3">
+        <label for="image" class="form-label">Edit Image</label><br>
+        <input type="file" class="form-control" id="image" name="image">
+    </div>
+    
+    <!-- Hidden input fields for storing post ID and action -->
+    <input type="hidden" name="id" value="<?= $post['id'] ?>">
+    <input type="hidden" name="action" value="update">
+    
 
         <!-- Display buttons Edit and Submit Update -->
         <div class="mb-3">
