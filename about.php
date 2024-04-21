@@ -32,11 +32,11 @@ require('connect.php');
             <div class="d-flex justify-content-around">
                 <div class="team-member">
                     <img src="images/joseph-gonzalez-iFgRcqHznqg-unsplash.jpg" alt="Thiago Profile">
-                    <p><strong>Thiago:</strong> Thiago is one of the co-owners of SET Books. He is a bookkeeper and ensures that all financial records are accurately maintained.</p>
+                    <p><strong>Thiago </strong>is one of the co-owners of SET Books. He is a bookkeeper and ensures that all financial records are accurately maintained.</p>
                 </div>
                 <div class="team-member">
                     <img src="images/jonathan-borba-5rQG1mib90I-unsplash.jpg" alt="Sara Profile">
-                    <p><strong>Sara:</strong> Sara is another co-owner of SET Books. She is an accountant and oversees all accounting activities, ensuring compliance with regulations.</p>
+                    <p><strong>Sara </strong>is the creator of SET Books. She is an accountant and oversees all accounting activities, ensuring compliance with regulations.</p>
                 </div>
             </div>
         </section>

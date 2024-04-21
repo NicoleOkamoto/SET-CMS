@@ -1,7 +1,7 @@
 <?php
 
 require('connect.php');
-require ('header.php');
+
 
 $verified_user = isset($_SESSION['is_verified']) && $_SESSION['is_verified'];
 
@@ -16,6 +16,10 @@ $verified_user = isset($_SESSION['is_verified']) && $_SESSION['is_verified'];
     <title>S&T Books</title>
 </head>
 <body>
+<header>
+<?php require ('header.php');?>
+
+</header>
 
 <div class="container mt-3">
     <!-- Image with contact form -->

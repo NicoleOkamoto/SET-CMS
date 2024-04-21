@@ -16,14 +16,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['create_user'])) {
     $lastName = filter_input(INPUT_POST, 'last_name', FILTER_SANITIZE_STRING);
     $businessName = filter_input(INPUT_POST, 'business_name', FILTER_SANITIZE_STRING);
 
-    // Insert the new user into the database
-    $stmt = $pdo->prepare('INSERT INTO users (username, password, email, first_name, last_name, business_name) VALUES (:username, :password, :email, :first_name, :last_name, :business_name)');
-    if ($stmt->execute(['username' => $username, 'password' => $password, 'email' => $email, 'first_name' => $firstName, 'last_name' => $lastName, 'business_name' => $businessName])) {
+    try {
+        // Insert the new user into the database
+        $stmt = $pdo->prepare('INSERT INTO users (username, password, email, first_name, last_name, business_name) VALUES (:username, :password, :email, :first_name, :last_name, :business_name)');
+        $stmt->execute(['username' => $username, 'password' => $password, 'email' => $email, 'first_name' => $firstName, 'last_name' => $lastName, 'business_name' => $businessName]);
         echo "User created successfully.";
-    } else {
-        echo "Error creating user.";
+    } catch (PDOException $e) {
+        // Check if the error is due to a duplicate username
+        if ($e->errorInfo[1] == 1062) {
+            
+            echo '<script>alert("Username already exists. Please choose a different username.");</script>';
+        } else {
+            // Output JavaScript alert for other errors
+            echo '<script>alert("Error creating user.");</script>';
+        }
     }
 }
+
 
 //EDIT BLOG SECTION
 // Query to fetch all blog post titles

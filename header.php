@@ -45,7 +45,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['login'])) {
     <div class="bg-light py-2 d-flex flex-column pr-9">
         <!-- Logo -->
         <a href="index.php" class="logo">
-            <img src="images/SET-BOOKS.png" alt="Logo" height="90px">
+            <img src="images/SET-BOOKS.png" alt="Logo" height="100px">
         </a>
         <!-- Login form always displayed on the right -->
         <form class="row g-3 ms-auto mr-1 mt-0 mb-0 pr-2" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
@@ -88,9 +88,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['login'])) {
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav">
+            <?php if(basename($_SERVER['PHP_SELF']) !== 'index.php'): ?>
             <li class="nav-item">
                 <a class="nav-link" href="index.php">🔹Home</a>
             </li>
+            <?php endif; ?>
             <li class="nav-item">
                 <a class="nav-link" href="about.php">🔹About Us</a>
             </li>
@@ -104,6 +106,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['login'])) {
     </div>
 </div>
 </nav>
+
+
+
 
 <!-- Bootstrap JavaScript and dependencies -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
