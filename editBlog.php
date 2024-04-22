@@ -22,24 +22,24 @@ if (!$post) {
 }
 
 // Handle form submission for editing the blog post
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_update'])) {
     // Sanitize user input for edited content
     $title = filter_input(INPUT_POST, 'title', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-    $contentBlog = filter_input(INPUT_POST, 'contentBlog', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+    $contentBlog = filter_input(INPUT_POST, 'contentBlog', FILTER_SANITIZE_STRING);
     $author = filter_input(INPUT_POST, 'author', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
     $id = filter_input(INPUT_POST, 'id', FILTER_SANITIZE_NUMBER_INT);
+    $image_post= "";
 
     // Validate inputs
     if (empty($title) || empty($contentBlog) || empty($author)) {
         $errorMessage = "Attention: Title, content, and author are required!";
     } else {
-        // File upload validation
         if ($_FILES['image']['name']) {
             $targetDir = "uploads/";
             $targetFile = $targetDir . basename($_FILES['image']['name']);
             $imageFileType = strtolower(pathinfo($targetFile, PATHINFO_EXTENSION));
             $uploadOk = 1;
-
+        
             $check = getimagesize($_FILES['image']['tmp_name']);
             if ($check === false) {
                 $errorMessage = "File is not an image.";
@@ -51,47 +51,46 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $errorMessage = "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
                 $uploadOk = 0;
             }
-
+        
             if ($uploadOk == 1 && !move_uploaded_file($_FILES['image']['tmp_name'], $targetFile)) {
                 $errorMessage = "Sorry, there was an error uploading your file.";
             }
+        
+            // Update image_post if upload was successful
+            if ($uploadOk == 1) {
+                $image_post = $targetFile;
+            }
         }
-
+        
         if (empty($errorMessage)) {
-            $query = "UPDATE blog SET title = :title, contentBlog = :contentBlog, author = :author WHERE id = :id";
+            $query = "UPDATE blog SET title = :title, contentBlog = :contentBlog, author = :author, image_post = :image_post WHERE id = :id";
             $statement = $pdo->prepare($query);
             $statement->bindValue(':title', $title);
-            $statement->bindValue(':contentBlog', $contentBlog);
+            $statement->bindValue(':contentBlog', $_POST['contentBlog']);
             $statement->bindValue(':author', $author);
+            $statement->bindValue(':image_post', $image_post); // Update image_post with new file path
             $statement->bindValue(':id', $id, PDO::PARAM_INT);
             $statement->execute();
-
+        
             // Redirect after update.
             header("Location: blogPost.php?id={$id}");
             exit;
         }
-    }
+}
+}
 
-    // Handle additional button actions
-    if (isset($_POST['submit_update'])) {
-        // Handle view post action
-        header("Location: blogPost.php?id={$id}");
-        exit;
-    } elseif (isset($_POST['submit_continue_editing'])) {
-      
-        header("Location: admin.php");
-        exit;
-    } elseif (isset($_POST['delete'])) {
-        // Handle delete post action
-        $query = "DELETE FROM blog WHERE id = :id";
-        $statement = $pdo->prepare($query);
-        $statement->bindValue(':id', $id, PDO::PARAM_INT);
-        $statement->execute();
-        
-        // Redirect to a relevant page after deletion
-        header("Location: admin.php"); // Redirect to admin page for example
-        exit;
-    }
+// Handle delete action for posts
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_post'])) {
+    $id = filter_input(INPUT_POST, 'id', FILTER_SANITIZE_NUMBER_INT);
+
+    $query = "DELETE FROM blog WHERE id = :id";
+    $statement = $pdo->prepare($query);
+    $statement->bindValue(':id', $id, PDO::PARAM_INT);
+    $statement->execute();
+
+    // Redirect to admin page after deletion
+    header("Location: admin.php");
+    exit;
 }
 
 // Fetch comments for the blog post along with their IDs
@@ -101,37 +100,19 @@ $statement->bindValue(':post_id', $id, PDO::PARAM_INT);
 $statement->execute();
 $comments = $statement->fetchAll(PDO::FETCH_ASSOC);
 
+// Handle delete action for comments
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_comment_id'])) {
+    $comment_id = filter_input(INPUT_POST, 'delete_comment_id', FILTER_SANITIZE_NUMBER_INT);
 
-// Check if the form to delete a comment is submitted
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_comment'])) {
-    // Get the comment ID from the form submission
-    $comment_id = isset($_POST['comment_id']) ? $_POST['comment_id'] : null;
+    $query = "DELETE FROM comments WHERE id = :comment_id";
+    $statement = $pdo->prepare($query);
+    $statement->bindValue(':comment_id', $comment_id, PDO::PARAM_INT);
+    $statement->execute();
 
-    // Check if the comment ID is valid
-    if ($comment_id) {
-        // Prepare the query to delete the comment from the database
-        $delete_query = "DELETE FROM comments WHERE id = :comment_id";
-        $delete_statement = $pdo->prepare($delete_query);
-
-        // Bind the comment ID parameter
-        $delete_statement->bindValue(':comment_id', $comment_id, PDO::PARAM_INT);
-
-        // Execute the deletion query
-        if ($delete_statement->execute()) {
-            // Comment deleted successfully
-            // Redirect back to the same page or wherever appropriate
-            header('Location: ' . $_SERVER['PHP_SELF']);
-            exit;
-        } else {
-            // Error occurred while deleting the comment
-            echo "Error deleting comment.";
-        }
-    } else {
-        // Invalid comment ID
-        echo "Invalid comment ID.";
-    }
+    // Redirect back to the same page or wherever appropriate
+    header('Location: ' . $_SERVER['PHP_SELF'] . '?id=' . $id);
+    exit;
 }
-
 
 ?>
 
@@ -142,25 +123,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_comment'])) {
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Blog Post</title>
-    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Quill.js CSS -->
-    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+    <script src="https://cdn.tiny.cloud/1/6du07rligevytivn166k977b47vxvwi6jix3bpe6vaycy8t7/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
+    <title>Edit Blog Post</title>
 </head>
 
 <body>
 
 <?php require('adminHeader.php'); ?>
 
+<script src="https://cdn.tiny.cloud/1/6du07rligevytivn166k977b47vxvwi6jix3bpe6vaycy8t7/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+<script>
+    tinymce.init({
+        selector: '#mytextarea',
+        license_key: 'gpl|<6du07rligevytivn166k977b47vxvwi6jix3bpe6vaycy8t7>'
+    });
+</script>
+
 <!-- Display form with title, author, content, and image being edited -->
 <form method="post" enctype="multipart/form-data">
-<?php if (!empty($errorMessage)): ?>
-                <div class="alert alert-danger" role="alert">
-                    <?= $errorMessage ?>
-                </div>
-            <?php endif ?>                   
-            <form method="post" enctype="multipart/form-data">
     <div class="mb-3">
         <label for="title" class="form-label">Title</label>
         <input type="text" class="form-control" id="title" name="title" value="<?= $post['title'] ?>">
@@ -170,69 +151,33 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_comment'])) {
         <input type="text" class="form-control" id="author" name="author" value="<?= $post['author'] ?>">
     </div>
     <div class="mb-3">
-        <label for="contentBlog" class="form-label">Content</label>
-        <textarea class="form-control" id="contentBlog" name="contentBlog"><?= $post['contentBlog'] ?></textarea>
+        <label for="contentBlog">Content</label>
+        <textarea id="mytextarea" name="contentBlog" placeholder="Type here..."><?= $post['contentBlog'] ?></textarea>
     </div>
     <div class="mb-3">
-        <label for="image" class="form-label">Current Image</label><br>
-        <img src="<?= $post['image_post'] ?>" alt="Current Image" style="max-width: 100%; height: auto;">
-    </div>
+    <label for="image" class="form-label">Current Image</label><br>
+    <img src="<?= $post['image_post'] ?>" alt="Current Image" style="max-width: 300px; height: auto;">
+</div>
+
     <div class="mb-3">
         <label for="image" class="form-label">Edit Image</label><br>
         <input type="file" class="form-control" id="image" name="image">
     </div>
-    
-    <!-- Hidden input fields for storing post ID and action -->
-    <input type="hidden" name="id" value="<?= $post['id'] ?>">
-    <input type="hidden" name="action" value="update">
-    
 
-        <!-- Display buttons Edit and Submit Update -->
-        <div class="mb-3">
-            <!-- Display error message if there is one -->
-            <?php if (!empty($errorMessage)): ?>
-                <div class="alert alert-danger" role="alert">
-                    <?= $errorMessage ?>
-                </div>
-            <?php endif ?>
-            <button type="submit" class="btn btn-primary" name="submit_update">Submit Update & Exit</button>
-            <button type="submit" class="btn btn-warning" name="submit_continue_editing">Submit and Continue Editing</button>
-            <button type="button" class="btn btn-danger" name="delete_post" onclick="confirmDelete()">Delete Post</button>
-    <input type="hidden" name="id" value="<?= $post['id'] ?>">
-    <input type="hidden" name="delete" value="1"> <!-- Add a hidden input to indicate deletion -->
-        </div>
-    </form>
+    <!-- Display buttons Edit and Submit Update -->
+    <div class="mb-3">
+        <!-- Display error message if there is one -->
+        <?php if (!empty($errorMessage)): ?>
+            <div class="alert alert-danger" role="alert">
+                <?= $errorMessage ?>
+            </div>
+        <?php endif ?>
+        <button type="submit" class="btn btn-primary" name="submit_update">Submit Update & Exit</button>
+        <button type="submit" class="btn btn-danger" name="delete_post">Delete Post</button>
 
-
-
-</div>
-
-    <!-- Bootstrap Bundle with Popper -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
-    <!-- Quill.js -->
-<script src="https://cdn.quilljs.com/1.3.6/quill.min.js"></script>
-<script>
-    var quill = new Quill('#editor', {
-        theme: 'snow'
-    });
-
-    // Set the initial content of the Quill editor
-    quill.root.innerHTML = <?= json_encode($post['contentBlog']) ?>;
-
-    // Save the Quill content to the hidden input field
-    document.querySelector('form').addEventListener('submit', function() {
-        document.querySelector('input[name="contentBlog"]').value = quill.getText();
-    });
-
-    // Confirm delete post action
-    function confirmDelete() {
-        if (confirm('Are you sure you wish to delete this?')) {
-            document.querySelector('input[name="delete"]').value = true;
-            document.querySelector('form').submit();
-        }
-    }
-</script>
+        <input type="hidden" name="id" value="<?= $post['id'] ?>">
+    </div>
+</form>
 
 <!-- Display Comments -->
 <div class="container mt-5">
@@ -247,9 +192,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_comment'])) {
                         <h5 class="card-title"><?= $comment['name'] ?></h5>
                         <p class="card-text"><?= $comment['comment'] ?></p>
                         <!-- Display delete button for each comment -->
-                        <form method="post">
-                            <input type="hidden" name="comment_id" value="<?= $comment['id'] ?>">
-                            <button type="submit" class="btn btn-danger" name="delete_comment">Delete</button>
+                        <form method="post" style="display: inline;">
+                            <input type="hidden" name="delete_comment_id" value="<?= $comment['id'] ?>">
+                            <button type="submit" class="btn btn-danger">Delete</button>
                         </form>
                     </div>
                 </div>

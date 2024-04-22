@@ -17,7 +17,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     } else {
         // Sanitize user input to escape HTML entities and filter out dangerous characters.
         $title = filter_input(INPUT_POST, 'title', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-        $contentBlog = filter_input(INPUT_POST, 'contentBlog', FILTER_SANITIZE_STRING);
+        //tiny handling sanitization of blogContent field
         $author = filter_input(INPUT_POST, 'author', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
         // Image upload handling
@@ -54,7 +54,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
             // Bind values to the parameters
             $statement->bindValue(':title', $title);
-            $statement->bindValue(':contentBlog', $contentBlog);
+            $statement->bindValue(':contentBlog', $_POST['contentBlog']);
             $statement->bindValue(':author', $author);
             $statement->bindValue(':image_post', $image_post);
 
@@ -78,14 +78,23 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create Blog Post</title>
-    <!-- Include Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.4.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Include Quill stylesheet -->
-    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+    <script src="https://cdn.tiny.cloud/1/6du07rligevytivn166k977b47vxvwi6jix3bpe6vaycy8t7/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
+    <script src="/path/or/uri/to/tinymce.min.js" referrerpolicy="origin"></script>
+    <title>Create New Post</title>
 </head>
 <?php require('adminHeader.php'); ?>
 <body>
+
+<script src="/path/or/uri/to/tinymce.min.js" referrerpolicy="origin"></script>
+    <script>
+      tinymce.init({
+        selector: '#mytextarea',
+        license_key: 'gpl|<6du07rligevytivn166k977b47vxvwi6jix3bpe6vaycy8t7>'
+      });
+    </script>
+
+
     <div class="container">
         <h1>Create Blog Post</h1>
         <form action="" method="POST" enctype="multipart/form-data">
@@ -95,9 +104,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             </div>
 
             <div class="mb-3">
-                <label for="contentBlog" class="form-label">Content:</label>
-                <div id="editor" style="height: 300px;"></div>
-                <input type="hidden" id="contentBlog" name="contentBlog" class="form-control">
+            <label for="contentBlog">Content</label>
+            <textarea id="mytextarea" name="contentBlog" placeholder="Type here..."></textarea>
             </div>
 
             <div class="mb-3">
@@ -114,19 +122,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         </form>
     </div>
 
-    <!-- Include Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.4.0/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- Include Quill library -->
-    <script src="https://cdn.quilljs.com/1.3.6/quill.min.js"></script>
-    <script>
-        var quill = new Quill('#editor', {
-            theme: 'snow'
-        });
-        // Set hidden input value to Quill content on form submit
-        document.querySelector('form').onsubmit = function() {
-            document.querySelector('#contentBlog').value = quill.root.innerHTML;
-        };
-    </script>
+ 
 </body>
 
 </html>
