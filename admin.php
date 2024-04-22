@@ -2,9 +2,6 @@
 require('connect.php');
 require('authenticate.php');
 
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
 //CREATE NEW USER SECTION
 // Check if the form create user form was submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['create_user'])) {
@@ -24,7 +21,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['create_user'])) {
     } catch (PDOException $e) {
         // Check if the error is due to a duplicate username
         if ($e->errorInfo[1] == 1062) {
-            
+
             echo '<script>alert("Username already exists. Please choose a different username.");</script>';
         } else {
             // Output JavaScript alert for other errors
@@ -33,13 +30,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['create_user'])) {
     }
 }
 
-
 //EDIT BLOG SECTION
 // Query to fetch all blog post titles
 $query = "SELECT id, title FROM blog";
 $statement = $pdo->query($query);
 $posts = $statement->fetchAll(PDO::FETCH_ASSOC);
-
 
 //CHANGE HOMEPAGE IMAGE
 // Check if the form was submitted
@@ -84,65 +79,71 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['change_image'])) {
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <title>Admin Portal</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
 </head>
-<?php require('adminHeader.php'); ?>
+
+<header>
+    <?php require ('adminHeader.php'); ?>
+</header>
+
 <body>
-    
     <div class="container">
-    
-    <h2>Create New User</h2>
-    <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
-        <table class="table">
-            <tbody>
-                <tr>
-                    <td><label for="username" class="form-label">Username:</label></td>
-                    <td><input type="text" class="form-control" id="username" name="username" required></td>
-                </tr>
-                <tr>
-                    <td><label for="password" class="form-label">Password:</label></td>
-                    <td><input type="password" class="form-control" id="password" name="password" required></td>
-                </tr>
-                <tr>
-                    <td><label for="email" class="form-label">Email:</label></td>
-                    <td><input type="email" class="form-control" id="email" name="email" required></td>
-                </tr>
-                <tr>
-                    <td><label for="first_name" class="form-label">First Name:</label></td>
-                    <td><input type="text" class="form-control" id="first_name" name="first_name" required></td>
-                </tr>
-                <tr>
-                    <td><label for="last_name" class="form-label">Last Name:</label></td>
-                    <td><input type="text" class="form-control" id="last_name" name="last_name" required></td>
-                </tr>
-                <tr>
-                    <td><label for="business_name" class="form-label">Business Name:</label></td>
-                    <td><input type="text" class="form-control" id="business_name" name="business_name" required></td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td><button type="submit" name="create_user" class="btn btn-primary">Create User</button></td>
-                </tr>
-            </tbody>
-        </table>
+
+        <!-- Form to create the new users -->
+        <h2>Create New User</h2>
+        <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+            <table class="table">
+                <tbody>
+                    <tr>
+                        <td><label for="username" class="form-label">Username:</label></td>
+                        <td><input type="text" class="form-control" id="username" name="username" required></td>
+                    </tr>
+                    <tr>
+                        <td><label for="password" class="form-label">Password:</label></td>
+                        <td><input type="password" class="form-control" id="password" name="password" required></td>
+                    </tr>
+                    <tr>
+                        <td><label for="email" class="form-label">Email:</label></td>
+                        <td><input type="email" class="form-control" id="email" name="email" required></td>
+                    </tr>
+                    <tr>
+                        <td><label for="first_name" class="form-label">First Name:</label></td>
+                        <td><input type="text" class="form-control" id="first_name" name="first_name" required></td>
+                    </tr>
+                    <tr>
+                        <td><label for="last_name" class="form-label">Last Name:</label></td>
+                        <td><input type="text" class="form-control" id="last_name" name="last_name" required></td>
+                    </tr>
+                    <tr>
+                        <td><label for="business_name" class="form-label">Business Name:</label></td>
+                        <td><input type="text" class="form-control" id="business_name" name="business_name" required>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td><button type="submit" name="create_user" class="btn btn-primary">Create User</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
     </form>
-</div>
 
-
-</form>
-
-<!-- Link to view Blog Titles -Edit Blog Posts -->
-<div class="container">
+    <!-- Link to view Blog Titles -Edit Blog Posts -->
+    <div class="container">
         <h2>Edit Blog Post</h2>
         <div class="container mt-5 mb-5">
-        <a href="createBlogPost.php" class="btn btn-primary">Create Blog Post</a>
-    </div>
+            <a href="createBlogPost.php" class="btn btn-primary">Create Blog Post</a>
+        </div>
         <div class="row row-cols-3 g-3">
-            <?php foreach ($posts as $post) : ?>
+            <?php foreach ($posts as $post): ?>
                 <div class="col">
                     <div class="card border">
                         <div class="card-body">
@@ -155,7 +156,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['change_image'])) {
         </div>
     </div>
 
-<!-- upload header image -->
+    <!-- upload header image -->
     <div class="container mb-3 mt-5">
         <h2>Upload Header Image</h2>
         <form method="post" enctype="multipart/form-data">
@@ -166,8 +167,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['change_image'])) {
             <button name="change_image" type="submit" class="btn btn-primary">Upload Image</button>
         </form>
     </div>
-
-
-</div>
+    </div>
 </body>
+
 </html>

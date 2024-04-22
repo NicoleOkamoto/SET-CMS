@@ -1,6 +1,6 @@
 <?php
-require('connect.php');
 
+require('connect.php');
 
 // Generate random captcha code
 $captchaCode = substr(md5(mt_rand()), 0, 6); // Generate a 6-character random string
@@ -73,7 +73,7 @@ $comments = $statement->fetchAll(PDO::FETCH_ASSOC);
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="stylesheet.css">
+    <!-- <link rel="stylesheet" href="stylesheet.css"> -->
     <title><?= $pageTitle ?></title>
 </head>
 <header>
@@ -82,9 +82,9 @@ $comments = $statement->fetchAll(PDO::FETCH_ASSOC);
 <body>
  <!-- Blog Post Content -->
 
-    <div class="row">
-        <div class="col-lg-8 offset-lg-2">
-            <div class="blog_post bg-light p-4 rounded">
+ <div class="container mt-3">
+        <div class="post">
+            <div class="blog_post bg-light rounded">
                 <!-- Display the blog post -->
                 <h1 class="mb-4"><?= $row['title'] ?></h1>
                 <?php if ($row['image_post']) : ?>
@@ -92,9 +92,10 @@ $comments = $statement->fetchAll(PDO::FETCH_ASSOC);
                 <?php endif; ?>
                 <p class="mb-2"><small><?= date('F d, Y, h:i a', strtotime($row['date'])) ?></small></p>
                 <?= $row['contentBlog'] ?>
-                <h5 class="mt-4"><?= $row['author'] ?></h5>
+                <strong><p class="mt-4">Author: <?= $row['author'] ?></p></strong>
             </div>
-<!-- Display Comments -->
+              
+            <!-- Display Comments -->
 <div class="comments mt-5">
     <h5 class="mb-4">Comments:</h5>
     <?php if (count($comments) > 0) : ?>
@@ -142,13 +143,13 @@ $comments = $statement->fetchAll(PDO::FETCH_ASSOC);
                 </form>
             </div>
         </div>
+        </div>
+
     </div>
-
-
   
     <footer>
         <?php require('footer.php'); ?>
     </footer>
-</body>
+    </body>
 
 </html>

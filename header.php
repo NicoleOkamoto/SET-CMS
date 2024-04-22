@@ -64,9 +64,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['login'])) {
                 <?php endif; ?>
             </div>
         </form>
-
-
-
         
         <!-- Welcome message displayed on the next line, aligned -->
         <?php if ($verified_user): ?>
@@ -106,13 +103,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['login'])) {
             <li class="nav-item">
                 <a class="nav-link" href="contactUs.php">🔹Contact Us</a>
             </li>
+            <?php if ($verified_user): ?>
+            <li class="nav-item">
+                <?php
+                    $first_name = $_SESSION['first_name'];
+                ?>
+                <a class="nav-link" href="dashboard.php">🔹Access your Portal</a>
+            </li>
+        <?php endif; ?>
         </ul>
     </div>
 </div>
 </nav>
-
-
-
 
 <!-- Bootstrap JavaScript and dependencies -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>

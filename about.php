@@ -17,7 +17,6 @@ require ('connect.php');
 
 <header>
     <?php require ('header.php'); ?>
-
 </header>
 
 <body>

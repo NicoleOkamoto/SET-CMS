@@ -256,3 +256,10 @@ h3{
 .carousel-item p {
     margin-bottom: 0; /* Remove default margin for paragraph */
 }
+
+.image-container {
+  height: 200px !important; /* Set the height of the container */
+  width: 600px !important; /* Set the width of the container */
+  background-size: cover !important; /* Cover the entire container */
+  background-position: center !important; /* Center the image within the container */
+}

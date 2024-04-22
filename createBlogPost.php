@@ -28,24 +28,27 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $targetFile = $targetDir . basename($_FILES['image_blog']['name']);
             $imageFileType = strtolower(pathinfo($targetFile, PATHINFO_EXTENSION));
 
-            // Check file size (limit to 5MB)
-            if ($_FILES['image_blog']['size'] > 5 * 1024 * 1024) {
-                $errorMessage = "Image file is too large. Please upload an image under 5MB.";
-                echo "<script>alert('$errorMessage');</script>";
-            } // Allow certain file formats
-            else if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg" && $imageFileType != "gif") {
-                $errorMessage = "Only JPG, JPEG, PNG & GIF files are allowed.";
-                echo "<script>alert('$errorMessage');</script>";
+          // Check file size (limit to 5MB)
+          if ($_FILES['image_blog']['size'] > 5 * 1024 * 1024) {
+            $errorMessage = "Image file is too large. Please upload an image under 5MB.";
+            echo "<script>alert('$errorMessage');</script>";
+        } // Allow certain file formats
+        else if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg" && $imageFileType != "gif") {
+            $errorMessage = "Only JPG, JPEG, PNG & GIF files are allowed.";
+            echo "<script>alert('$errorMessage');</script>";
+        } else {
+            // Move the uploaded file to the target directory
+            if (move_uploaded_file($tempFile, $targetFile)) {
+                $image_post = $targetFile;
             } else {
-                // Move the uploaded file to the target directory
-                if (move_uploaded_file($tempFile, $targetFile)) {
-                    $image_post = $targetFile;
-                } else {
-                    $errorMessage = "Error uploading the image.";
-                    echo "<script>alert('$errorMessage');</script>";
-                }
+                $errorMessage = "Error uploading the image.";
+                echo "<script>alert('$errorMessage');</script>";
             }
         }
+    }
+
+
+        
 
         if (empty($errorMessage)) {
             // Build the parameterized SQL query
