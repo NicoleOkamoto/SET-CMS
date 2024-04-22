@@ -138,7 +138,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['change_image'])) {
 <!-- Link to view Blog Titles -Edit Blog Posts -->
 <div class="container">
         <h2>Edit Blog Post</h2>
-        <div class="container mt-3">
+        <div class="container mt-5 mb-5">
         <a href="createBlogPost.php" class="btn btn-primary">Create Blog Post</a>
     </div>
         <div class="row row-cols-3 g-3">
@@ -156,7 +156,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['change_image'])) {
     </div>
 
 <!-- upload header image -->
-    <div class="container mb-3 mt-3">
+    <div class="container mb-3 mt-5">
         <h2>Upload Header Image</h2>
         <form method="post" enctype="multipart/form-data">
             <div class="mb-3">

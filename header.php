@@ -98,6 +98,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['login'])) {
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="blog.php">🔹Info Hub</a>
+                </li>
+            <li class="nav-item">
+                <a class="nav-link" href="services.php">🔹Services</a>
+            </li>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="contactUs.php">🔹Contact Us</a>
