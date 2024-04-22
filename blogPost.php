@@ -1,15 +1,12 @@
 <?php
 
-require('connect.php');
+require ('connect.php');
 
 // Generate random captcha code
 $captchaCode = substr(md5(mt_rand()), 0, 6); // Generate a 6-character random string
 
 // Store captcha code in session
 $_SESSION['captcha'] = $captchaCode;
-
-
-
 
 // Get the blog post ID from the URL
 $id = isset($_GET['id']) ? filter_var($_GET['id'], FILTER_VALIDATE_INT) : null;
@@ -41,7 +38,7 @@ if (!$row) {
 // Set the page title to the blog post title
 $pageTitle = $row['title'];
 
-// Handle comment submission
+// Handle comment submission - 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['submit_comment'])) {
         // Comment submission is coming from the button with name "submit_comment"
@@ -72,49 +69,50 @@ $comments = $statement->fetchAll(PDO::FETCH_ASSOC);
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- <link rel="stylesheet" href="stylesheet.css"> -->
     <title><?= $pageTitle ?></title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<header>
-<?php require('header.php'); ?>
-</header>
-<body>
- <!-- Blog Post Content -->
 
- <div class="container mt-3">
+<body>
+    <header>
+        <?php require ('header.php'); ?>
+    </header>
+
+    <!-- Blog Post Content -->
+    <div class="container mt-3">
         <div class="post">
             <div class="blog_post bg-light rounded">
                 <!-- Display the blog post -->
                 <h1 class="mb-4"><?= $row['title'] ?></h1>
-                <?php if ($row['image_post']) : ?>
+                <?php if ($row['image_post']): ?>
                     <img src="<?= $row['image_post'] ?>" class="img-fluid mb-4" alt="Blog Post Image" />
                 <?php endif; ?>
                 <p class="mb-2"><small><?= date('F d, Y, h:i a', strtotime($row['date'])) ?></small></p>
                 <?= $row['contentBlog'] ?>
-                <strong><p class="mt-4">Author: <?= $row['author'] ?></p></strong>
+                <strong>
+                    <p class="mt-4">Author: <?= $row['author'] ?></p>
+                </strong>
             </div>
-              
-            <!-- Display Comments -->
-<div class="comments mt-5">
-    <h5 class="mb-4">Comments:</h5>
-    <?php if (count($comments) > 0) : ?>
-        <?php $colors = ['#FFE4C2', '#FFF7F2']; ?>
-        <?php $colorIndex = 0; ?>
-        <?php foreach ($comments as $comment) : ?>
-            <div class="card mb-3" style="background-color: <?= $colors[$colorIndex % count($colors)] ?>;">
-                <div class="card-body">
-                    <h5 class="card-title"><?= $comment['name'] ?></h5>
-                    <p class="card-text"><?= $comment['comment'] ?></p>
-                </div>
-            </div>
-            <?php $colorIndex++; ?>
-        <?php endforeach; ?>
-    <?php else : ?>
-        <p>No comments yet. Be the first to comment!</p>
-    <?php endif; ?>
-</div>
 
+            <!-- Display Comments -->
+            <div class="comments mt-5">
+                <h5 class="mb-4">Comments:</h5>
+                <?php if (count($comments) > 0): ?>
+                    <?php $colors = ['#FFE4C2', '#FFF7F2']; ?>
+                    <?php $colorIndex = 0; ?>
+                    <?php foreach ($comments as $comment): ?>
+                        <div class="card mb-3" style="background-color: <?= $colors[$colorIndex % count($colors)] ?>;">
+                            <div class="card-body">
+                                <h5 class="card-title"><?= $comment['name'] ?></h5>
+                                <p class="card-text"><?= $comment['comment'] ?></p>
+                            </div>
+                        </div>
+                        <?php $colorIndex++; ?>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <p>No comments yet. Be the first to comment!</p>
+                <?php endif; ?>
+            </div>
 
             <!-- Comment Form -->
             <div class="comment-form mb-3 mt-5">
@@ -133,7 +131,7 @@ $comments = $statement->fetchAll(PDO::FETCH_ASSOC);
                         <div class="row align-items-center">
                             <div class="col-md-6">
                                 <img src="captcha.php" alt="Captcha Image" class="img-fluid">
-                           
+
                                 <input type="text" class="form-control" id="captcha" name="captcha" required>
                                 <small class="form-text">Enter the code shown above</small>
                             </div>
@@ -143,13 +141,12 @@ $comments = $statement->fetchAll(PDO::FETCH_ASSOC);
                 </form>
             </div>
         </div>
-        </div>
-
     </div>
-  
+    </div>
+
     <footer>
-        <?php require('footer.php'); ?>
+        <?php require ('footer.php'); ?>
     </footer>
-    </body>
+</body>
 
 </html>

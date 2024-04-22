@@ -1,6 +1,6 @@
 <?php
 session_start();
-
+//Captcha for blog post - comment section
 // Generate a new random captcha code
 $captchaCode = substr(md5(mt_rand()), 0, 6); // Generate a 6-character random string
 
@@ -17,7 +17,7 @@ $image = imagecreatetruecolor(120, 40);
 imagecopy($image, $backgroundImage, 0, 0, 0, 0, 120, 40);
 
 // Set the text color
-$textColor = imagecolorallocate($image,  255, 255, 255);
+$textColor = imagecolorallocate($image, 255, 255, 255);
 $fontSize = 16;
 // Add the captcha code to the image
 imagestring($image, 5, 20, 10, $captchaCode, $textColor);

@@ -1,6 +1,6 @@
 <?php
-require('connect.php');
-require('authenticate.php');
+require ('connect.php');
+require ('authenticate.php');
 
 //CREATE NEW USER SECTION
 // Check if the form create user form was submitted
@@ -50,7 +50,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['change_image'])) {
         if ($_FILES['header_image']['size'] > 5 * 1024 * 1024) {
             $errorMessage = "Image file is too large. Please upload an image under 5MB.";
             echo "<script>alert('$errorMessage');</script>";
-        } // Allow certain file formats
+        } // Allow only images
         else if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg" && $imageFileType != "gif") {
             $errorMessage = "Only JPG, JPEG, PNG & GIF files are allowed.";
             echo "<script>alert('$errorMessage');</script>";
@@ -58,7 +58,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['change_image'])) {
             // Read the file contents
             $imageData = file_get_contents($tempFile);
 
-            // Insert a new row into the settings table
+            // Store image into the settings table on database
             $query = "INSERT INTO settings (header_image) VALUES (:header_image)";
             $statement = $pdo->prepare($query);
             $statement->bindParam(':header_image', $imageData, PDO::PARAM_LOB);
@@ -83,17 +83,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['change_image'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Portal</title>
+    <title>S&T Admin Portal</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-
 </head>
 
-<header>
-    <?php require ('adminHeader.php'); ?>
-</header>
-
 <body>
+    <header>
+        <?php require ('adminHeader.php'); ?>
+    </header>
+
     <div class="container">
 
         <!-- Form to create the new users -->
@@ -138,7 +137,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['change_image'])) {
 
     <!-- Link to view Blog Titles -Edit Blog Posts -->
     <div class="container">
-        <h2>Edit Blog Post</h2>
+        <h2>Edit Info Hub (Blog Posts) </h2>
         <div class="container mt-5 mb-5">
             <a href="createBlogPost.php" class="btn btn-primary">Create Blog Post</a>
         </div>
@@ -158,7 +157,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['change_image'])) {
 
     <!-- upload header image -->
     <div class="container mb-3 mt-5">
-        <h2>Upload Header Image</h2>
+        <h2>Chnage Homepage Image</h2>
         <form method="post" enctype="multipart/form-data">
             <div class="mb-3">
                 <label for="header_image" class="form-label">Select Image:</label>
@@ -168,6 +167,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['change_image'])) {
         </form>
     </div>
     </div>
+    <script src="script.js"></script>
 </body>
 
 </html>

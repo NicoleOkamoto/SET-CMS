@@ -12,16 +12,15 @@ $verified_user = isset($_SESSION['is_verified']) && $_SESSION['is_verified'];
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>S&T Books</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="stylesheet.css">
-    <title>S&T Books</title>
 </head>
 
 <body>
     <header>
         <a id="top"></a>
         <?php require ('header.php'); ?>
-
     </header>
 
     <div class="container mt-3">
@@ -32,8 +31,7 @@ $verified_user = isset($_SESSION['is_verified']) && $_SESSION['is_verified'];
             $query = "SELECT header_image FROM settings ORDER BY id DESC LIMIT 1";
             $statement = $pdo->query($query);
 
-            // Check if any rows were returned
-            if ($statement->rowCount() > 0) {
+                if ($statement->rowCount() > 0) {
                 $row = $statement->fetch(PDO::FETCH_ASSOC);
                 $headerImage = $row['header_image'];
 
@@ -63,7 +61,7 @@ $verified_user = isset($_SESSION['is_verified']) && $_SESSION['is_verified'];
         </div>
     </div>
 
-    <!-- Services Provide -->
+    <!-- Section of Services Provide -->
     <div class="container">
         <div class="container-fluid py-5 bg-light">
             <h1 class="mb-4 text-center .text-secondary">Our Services</h1>
@@ -206,8 +204,7 @@ $verified_user = isset($_SESSION['is_verified']) && $_SESSION['is_verified'];
         </div>
     </div>
 
-
-    <!-- Include Bootstrap JS and jQuery -->
+    <!-- Scripts -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
@@ -215,8 +212,7 @@ $verified_user = isset($_SESSION['is_verified']) && $_SESSION['is_verified'];
     </div>
 
     <footer>
-
         <?php require ('footer.php'); ?>
-
     </footer>
+    
 </html>

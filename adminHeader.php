@@ -20,7 +20,7 @@
                 </a>
             </div>
             <!-- Heading -->
-            <h1 class="mb-0 ml-auto pr-5 mr-3">Admin Portal</h1> <!-- Added mr-3 for right margin -->
+            <h1 class="mb-0 ml-auto pr-5 mr-3">Admin Portal</h1>
         </div>
 
         <!-- Navigation bar -->
@@ -45,7 +45,7 @@
                 </div>
             </div>
         </nav>
-        
+
 </body>
 
 </html>

@@ -15,11 +15,12 @@ require ('connect.php');
     <link rel="stylesheet" href="stylesheet.css">
 </head>
 
-<header>
-    <?php require ('header.php'); ?>
-</header>
-
 <body>
+    <header>
+        <?php require ('header.php'); ?>
+    </header>
+
+
     <div class="container">
         <section class="about">
             <h2>Who we are?</h2>
@@ -87,10 +88,12 @@ require ('connect.php');
         </section>
     </div>
 
-</body>
+    <footer>
+        <?php require ('footer.php'); ?>
+    </footer>
 
-<footer>
-    <?php require ('footer.php'); ?>
-</footer>
+    <script src="script.js"></script>
+
+</body>
 
 </html>

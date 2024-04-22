@@ -1,7 +1,6 @@
-@import url('https://fonts.googleapis.com/css2?family=Aleo:wght@400;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Aleo:wght@400;700&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Chivo:ital,wght@0,100..900;1,100..900&display=swap");
 
-/* Ensure that all elements use the box-sizing border-box model */
 html {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -16,39 +15,39 @@ html {
 
 /* Style for the image wrapper */
 .image-wrapper {
-  height: 500px; 
+  height: 500px;
   overflow: hidden;
-  position: relative; /* Ensure relative positioning for absolute positioning of the image */
+  position: relative;
 }
 
 /* Style for the cropped image */
 .cropped-image {
-  width: 100%; /* Ensure the image fills its container */
-  height: 500px; /* Set the height to a fixed value */
-  object-fit: cover; 
+  width: 100%;
+  height: 500px;
+  object-fit: cover;
 }
 
-/* Style for the overlay */
+/* Style for the overlay homepage */
 .overlay {
   position: absolute;
   top: 0;
   right: 0;
-  width: 50%; /* Covers 50% of the right side of the image */
+  width: 50%;
   height: 100%;
-  background-color: rgba(255, 255, 255, 0.7); /* Adjust opacity as needed */
+  background-color: rgba(255, 255, 255, 0.7);
   z-index: 1;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-/* Style for the form container */
+/* Style for the form container homepage */
 .form-container {
   width: max-content;
   z-index: 2;
   position: absolute;
   top: 50%;
-  left: 50%; /* Adjust left position to center form within the overlay */
+  left: 50%;
   transform: translate(-50%, -50%);
   background-color: #fff;
   padding: 20px;
@@ -58,14 +57,12 @@ html {
 
 .form-container .form-title {
   display: block;
-  font-family: 'Aleo', sans-serif; /* Use the Aleo font */
+  font-family: "Aleo", sans-serif; /* Use the Aleo font */
   font-size: 1.7rem; /* Adjust font size as needed */
   margin-bottom: 0.5rem; /* Add margin below the title */
   font-weight: bold;
   color: #4058d4; /* Use purple color */
 }
-
-
 
 .card {
   border: none;
@@ -76,7 +73,7 @@ html {
 }
 
 .bg-light {
-  background-color: #F8F9FA !important;
+  background-color: #f8f9fa !important;
 }
 
 .bg-white {
@@ -88,22 +85,21 @@ html {
   margin-bottom: 3rem !important;
 }
 
-
 /* footer styling */
-.custom-footer{
-background-color: #FFA735;
+.custom-footer {
+  background-color: #ffa735;
 }
 
-  /* Style for the admin login link */
-  .footer-link {
-    color: #FFA735; /* Set the default color to #FFA735 */
-    transition: color 0.3s ease; /* Smooth transition for color change */
-  }
+/* Style for the admin login link */
+.footer-link {
+  color: #ffa735;
+  transition: color 0.3s ease;
+}
 
-  /* Change color on hover */
-  .footer-link:hover {
-    color: #4058d4; /* Change to desired hover color */
-  }
+/* Change color on hover admin login */
+.footer-link:hover {
+  color: #4058d4;
+}
 
 a .footer .contact-info-item {
   color: white;
@@ -114,7 +110,7 @@ a .footer .contact-info-item {
   padding: 20px;
 }
 
-.posts{
+.posts {
   align-content: center;
 }
 
@@ -127,25 +123,23 @@ a .footer .contact-info-item {
   margin-bottom: 10px;
 }
 
-
-
+/* Headings */
 h1 {
-  font-family: 'Aleo', sans-serif;
+  font-family: "Aleo", sans-serif;
   font-weight: bold;
   color: #4058d4;
-
 }
 
-h2{
-  font-family: 'Aleo', sans-serif; /* Use the Aleo font */
+h2 {
+  font-family: "Aleo", sans-serif; /* Use the Aleo font */
   font-size: 1.7rem; /* Adjust font size as needed */
   margin: 0.9rem; /* Add margin below the title */
   font-weight: bold;
   color: #4058d4; /* Use purple color */
 }
 
-h3{
-  font-family: 'Aleo', sans-serif; /* Use the Aleo font */
+h3 {
+  font-family: "Aleo", sans-serif; /* Use the Aleo font */
   font-size: 1.4rem; /* Adjust font size as needed */
   margin: 0.9rem; /* Add margin below the title */
   font-weight: bold;
@@ -153,25 +147,23 @@ h3{
 }
 
 .navbar {
-  background-color: #FFA735;
-
+  background-color: #ffa735;
 }
 
-.nav-item{
-  font-family: 'Chivo', sans-serif; /* Use the Aleo font */
+.nav-item {
+  font-family: "Chivo", sans-serif; /* Use the Aleo font */
   font-size: 1.3rem; /* Adjust font size as needed */
   color: #4058d4; /* Use purple color */
 }
 
-.contact-info-item{
-  color: #FFF;
+.contact-info-item {
+  color: #fff;
   margin: 2px;
 }
 
-
 /* Change color on hover */
 .navbar-nav .nav-link:hover {
-  color:#4058d4; /* Change to desired hover color */
+  color: #4058d4; /* Change to desired hover color */
 }
 
 /*Blog post */
@@ -180,32 +172,42 @@ h3{
   height: 300px; /* Set the height to a fixed value */
   object-fit: cover; /* Crop if necessary to cover image area */
 }
+
 .blog_post p {
   margin-bottom: 3px; /* Adjust spacing between paragraphs */
 }
 
+.image-container {
+  height: 200px !important;
+  width: 600px !important;
+  background-size: cover !important;
+  background-position: center !important;
+}
+
+/* About Us */
 .team-member {
   display: flex;
   flex-direction: column;
   align-items: center;
   margin-bottom: 20px;
 }
+
 .team-member img {
   width: 250px;
   height: 350px;
-  border-radius: 20%;
   margin-right: 20px;
 }
+
 .team-member p {
   text-align: center;
   padding: 20px;
   margin: 10px;
 }
+
 .team {
   background-color: #ecc09d27; /* Set the background color */
   width: 100%;
   padding: 10px;
- 
 }
 
 .about {
@@ -218,48 +220,36 @@ h3{
   margin: 0 auto; /* Center the container */
 }
 
-
-
-
-/* Custom CSS */
-
+/* Google reviews carrousel bottom homepage*/
 #googleReviewCarousel {
-    height: 400px; /* Fixed height for the whole carousel section */
+  height: 400px;
 }
 
 .carousel-content {
-    text-align: center;
-    position: relative;
-    height: 300px; /* Fixed height for each item */
-
+  text-align: center;
+  position: relative;
+  height: 300px;
 }
 
 .carousel-content img {
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-    margin-bottom: 20px;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  margin-bottom: 20px;
 }
 
 .carousel-control-prev,
 .carousel-control-next {
-    z-index: 1; /* Ensure controls are above content */
-    background: none; /* Remove default background */
-    border: none; /* Remove default border */
-    color: #000; /* Set color to black */
+  z-index: 1;
+  background: none;
+  border: none;
+  color: #000;
 }
 
 .carousel-item {
-    padding: 20px;
+  padding: 20px;
 }
 
 .carousel-item p {
-    margin-bottom: 0; /* Remove default margin for paragraph */
-}
-
-.image-container {
-  height: 200px !important; /* Set the height of the container */
-  width: 600px !important; /* Set the width of the container */
-  background-size: cover !important; /* Cover the entire container */
-  background-position: center !important; /* Center the image within the container */
+  margin-bottom: 0;
 }
