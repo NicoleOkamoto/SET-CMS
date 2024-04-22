@@ -31,7 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['query'])) {
     $search_query = filter_input(INPUT_GET, 'query', FILTER_SANITIZE_STRING);
 
     // Perform the search in the title or contentBlog fields
-    $query = "SELECT id, title, contentBlog, date FROM blog WHERE title LIKE :query OR contentBlog LIKE :query ORDER BY date DESC";
+    $query = "SELECT id, title, contentBlog, image_post, date FROM blog WHERE title LIKE :query OR contentBlog LIKE :query ORDER BY date DESC";
     $statement = $pdo->prepare($query);
     $statement->bindValue(':query', "%$search_query%", PDO::PARAM_STR);
     $statement->execute();
@@ -63,14 +63,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['query'])) {
 
 <body>
     <h1 class="text-center mb-4 mt-2">Info Hub:</h1>
-            
-        <div class="col-md-8 offset-md-2 mb-3">
-            <p class="text-break">Welcome to our bookkeeping and tax filing blog and information hub! Here, you'll
-                find a wealth of valuable articles and resources to help you manage your finances effectively.
-                Whether you're a business owner looking for tax-saving strategies or an individual navigating
-                personal finances, our expertly crafted content is designed to provide you with insights and tips
-                tailored to your needs. Stay informed, stay ahead!</p>
-        </div>
+
+    <div class="col-md-8 offset-md-2 mb-3">
+        <p class="text-break">Welcome to our bookkeeping and tax filing blog and information hub! Here, you'll
+            find a wealth of valuable articles and resources to help you manage your finances effectively.
+            Whether you're a business owner looking for tax-saving strategies or an individual navigating
+            personal finances, our expertly crafted content is designed to provide you with insights and tips
+            tailored to your needs. Stay informed, stay ahead!</p>
+    </div>
 
 
     <!-- Display search bar for blog posts titles and content -->
@@ -90,13 +90,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['query'])) {
     <?php elseif (!empty($search_results)): ?>
 
         <!-- Display search results -->
-        <div class="row justify-content-center">
+        <div class="row m-3">
             <?php foreach ($search_results as $result): ?>
-                <div class="results">
-                    <div class='blog-post'>
-                        <h2><a href='blogPost.php?id=<?= $result['id'] ?>'><?= $result['title'] ?></a></h2>
-                        <small><?= date('F d, Y, h:i a', strtotime($result['date'])) ?></small>
-                        <p><?= $result['contentBlog'] ?></p>
+
+
+                <div class="col-lg-6"> <!-- Use column grid for consistent layout -->
+                    <div class="container-card text-center p-3 m-3">
+                        <a href='blogPost.php?id=<?= $result['id'] ?>'
+                            style="display: flex; justify-content: center; align-items: center;">
+                            <div class="image-container" style="background-image: url('<?= $result['image_post'] ?>');"></div>
+                        </a>
+
+                        <div class="card-body">
+                            <h5 class="card-title mr-3 ml-3 p-2"><a style="text-decoration: none;"
+                                    href='blogPost.php?id=<?= $result['id'] ?>'><?= $result['title'] ?></a></h5>
+                            <small class="text-muted"><?= date('F d, Y, h:i a', strtotime($result['date'])) ?></small>
+                        </div>
                     </div>
                 </div>
             <?php endforeach; ?>
@@ -104,7 +113,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['query'])) {
     <?php endif; ?>
 
 
-
+    <!-- Blog Posts -->
     <div class="row m-3">
         <?php $count = 0; ?>
         <?php while ($row = $statement->fetch(PDO::FETCH_ASSOC)): ?>
